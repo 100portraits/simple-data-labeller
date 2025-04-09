@@ -1,0 +1,15 @@
+# Top-level configuration
+name = "labeller" # Your Cloudflare Pages project name (can be same as repo)
+compatibility_date = "2024-04-05" # Use a recent date
+
+# Configuration for Pages Functions (where your SvelteKit backend runs)
+[pages_build_output]
+dir = "./.svelte-kit/cloudflare" # Default output dir for SvelteKit Cloudflare adapter
+
+# D1 Database Binding
+# This makes your D1 database available to your Pages Functions
+# The binding name 'DB' is important - we'll use this in the SvelteKit code
+[[d1_databases]]
+binding = "DB" # How your code will access the DB (e.g., env.DB)
+database_name = "article-labeller-db" # <<< REPLACE THIS with the name you choose below
+database_id = "3869ffa0-5057-43f9-b39b-442f4f72e85b" # Wrangler will fill this in after creation 

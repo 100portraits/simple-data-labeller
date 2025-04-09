@@ -1,0 +1,291 @@
+id,sitename,publishedtime,url,urlimage,title,alltext,summary,crash_id,countryid,describes_crash,mentions_all_parties,mentions_all_parties_explanation,uses_human_terms,uses_human_terms_explanation,active_voice,active_voice_explanation,human_centered_headline,re_mentions_all_parties,re_uses_human_terms,re_active_voice,scraped,id_crash,persons,num_unknown,num_unharmed,num_injured,num_dead
+20869,News Channel 5 Nashville (WTVF),2025-02-24 00:00:00,https://www.newschannel5.com/news/mnpd-searching-for-driver-involved-in-hit-and-run-saturday-night-in-berry-hill,https://ewscripps.brightspotcdn.com/dims4/default/e3237b5/2147483647/strip/true/crop/1920x1008+0+36/resize/1200x630!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2Fca%2F8f%2Fcbd901be423187b4d7d9298cce47%2Fhit-and-run-mov-frame-24.jpeg,MNPD searching for driver involved in hit-and-run Saturday night in Berry Hill,"A man is in critical condition after being hit. Police are using a key piece of surveillance video to find the driver of a red SUV they say is involved.
+
+Metro police are searching for a driver involved in a hit and run over the weekend. It happened Saturday night in Berry Hill on 8th Avenue South. 40-year-old Josh Taylor was hit. Police say he is alive, but fighting for his life in the hospital. Police are using a key piece of surveillance video to find the driver of a red SUV they say is involved. Police said Taylor was crossing 8th after he parked his car on the other side. He was walking toward the Smiling Elephant when he was hit by the red SUV. The car didn't stop when Taylor was knocked down on the road. He then was hit by a second car which did stop and stayed on scene until police arrived.If you know anything about what happened, call Crime Stoppers.",A man is in critical condition after being hit. Police are using a key piece of surveillance video to find the driver of a red SUV they say is involved.,17981,US,True,0.0,"The headline mentions the driver involved in the hit-and-run but does not mention the victim, Josh Taylor.",0.0,"The headline refers to the driver as 'driver' which is a human term, but it does not mention the victim, Josh Taylor, who is a human.",1.0,"The headline uses active voice with 'searching for driver' and 'involved in hit-and-run,' clearly showing the actions performed by the police and the driver.","Driver of red SUV strikes and flees, leaving pedestrian Josh Taylor critically injured in Berry Hill","The original headline only mentioned the driver. The revised headline includes the driver, the red SUV, and the pedestrian Josh Taylor.",The original headline used 'driver' and 'vehicle' terms. The revised headline uses 'driver' and 'pedestrian' to refer to the people involved.,The original headline used passive voice with 'searching for driver involved.' The revised headline uses active voice with 'Driver of red SUV strikes and flees.',True,17981,"[{'id': 45607, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 45608, 'groupid': None, 'transportationmode': 6, 'health': 1, 'child': 0, 'underinfluence': 0, 'hitrun': 1}]",0,1,1,0
+19399,Otago Daily Times Online News,2024-11-11 00:00:00,https://www.odt.co.nz/news/australia/one-dead-child-hurt-kindergarten-crash-tragedy,https://www.odt.co.nz/sites/default/files/styles/odt_story_opengraph_1200w/public/story/2024/11/melbkindyd.jpg?itok=yG9GbTM3,"One dead, child hurt in kindergarten crash tragedy","An adult is dead and a child injured after a water tanker crashed through a fence at a small-town Victoria kindergarten.
+
+The incident took place on Main Road at Riddells Creek, 55km north of Melbourne about 2.20pm on Monday (local time).
+
+Victoria Police confirmed an adult, who is yet to be formally identified, died at the scene. 
+
+
+McKenzie Water owner Alan McKenzie confirmed the truck belonged to his company and said the driver was understood to have suffered a medical episode.
+
+""As a small family-owned business, we are devastated following the tragic crash at Riddells Creek ... this is an incredibly distressing time and our deepest sympathies go to those involved and their families and friends,"" he said. 
+
+""Our experienced 68-year-old driver is understood to have suffered a medical episode and remains in hospital ... we are doing what we can to support him and his family.""
+
+Footage from the scene shows emergency vehicles including fire trucks and ambulances parked across the thoroughfare. 
+
+Police taped off the area surrounding the pre-school on Monday afternoon as they investigated.
+
+A second damaged vehicle - a white sedan - remained near the accident, missing its front bumper.
+
+
+A number of trees were strewn on the road next to the kindergarten, with SES members also in attendance.
+
+A Victorian Police spokeswoman said an investigation into the cause of the crash was under way.
+
+""A child was injured and has been taken to hospital with serious but non-life threatening injuries,"" she said.
+
+Ambulance Victoria confirmed paramedics had taken the child to Royal Children's Hospital with an upper body injury but in a stable condition.
+
+The truck driver has been taken by ambulance to Royal Melbourne Hospital in a stable condition.
+
+Victorian health minister and member for Macedon Mary-Anne Thomas thanked first responders who helped the injured. 
+
+""This is a terrible incident and our thoughts are with the family of the victims and the broader Riddells Creek community,"" she said.
+
+The crash comes less than two weeks after 11-year-old Jack Davey was killed and four other students injured after an SUV crashed through a fence at Auburn South Primary School in Melbourne's east.
+
+A private funeral was held for Jack on Sunday.",An adult is dead and a child injured after a water tanker crashed through a fence at a small-town Victoria kindergarten.,16894,AU,True,0.0,"The headline mentions 'one dead' and 'child hurt,' but it does not explicitly mention the truck driver or the truck, which are key parties involved in the crash.",0.0,The headline uses dehumanizing statistics ('one dead') and does not explicitly describe the truck driver as a human.,0.0,"The headline uses passive constructions ('one dead', 'child hurt') and outcome-only descriptions without clear agency.","Driver suffers medical episode, crashes truck into kindergarten, killing adult and injuring child","The original headline only mentioned 'one' and 'child.' The revised headline specifies the driver, the adult who died, and the child who was injured.","The original headline used 'kindergarten crash tragedy,' which is a location and event. The revised headline uses 'driver,' 'adult,' and 'child,' which are human terms.","The original headline was in passive voice. The revised headline is in active voice, clearly showing that the driver suffered a medical episode and crashed the truck.",True,16894,"[{'id': 42523, 'groupid': None, 'transportationmode': 1, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42524, 'groupid': None, 'transportationmode': 12, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42525, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}]",0,0,2,1
+19402,9news.com.au,2024-11-12 00:00:00,https://www.9news.com.au/national/riddells-creek-crash-adult-killed-child-injured-after-truck-crashes-into-victorian-kindergarten/818fb1a8-4df8-4092-9723-18a53cb115f0,https://imageresizer.static9.net.au/DT0WADB9FjV7tyh-y0XxUrNYHyA=/1200x628/smart/https%3A%2F%2Fprod.static9.net.au%2Ffs%2F153ba067-0f2b-4be1-a16a-74ddd89c30f3,'Hero' killed when truck smashed into kindergarten revealed,"The 43-year old kindergarten worker and speech pathologist killed in a truck crash at a centre north-west of Melbourne yesterday afternoon has been identified as Eleanor Bryant.
+Bryant has been hailed a hero after it was said her last act was to push children out of the way of the oncoming truck.﻿
+A three-year-old child ﻿was hurt but a shocked detective said it was ""unbelievable"" Byrant was the only person to die and her local MP hailed her as a ""hero"".
+
+Eleanor Bryant was killed after a truck crashed into a kindergarten north-west of Melbourne. (Herald Sun)
+The McKenzie Water truck crashed into the playground of Macedon Ranges Montessori Preschool on Main Road in Riddells Creek about 2.20pm yesterday, when multiple children and teachers were finishing a play break.﻿
+McKenzie Water owner ﻿Alan McKenzie said the ""experienced 68-year-old driver is understood to have suffered a medical episode"".
+It is believed the water tanker hit a power pole before it slammed into the playground.
+
+It's believed the driver of the truck suffered a medical episode.
+Detective Senior Sergeant Christian Von Tunk said it appeared the truck had also hit a bridge and multiple road signs before veering off the road into the playground ""where a number of children and teachers were situated"".
+""It's a tragic set of circumstances which actually could have been a lot worse,"" he said.
+""This is one of those close calls that, I don't know how only one person has died today.
+""It's unbelievable.""
+He said police would follow up on reports of Bryant's ""acts of bravery"".
+
+Detective Senior Sergeant Christian Von Tunk said the outcome of the crash was ""tragic"". 
+Bryant died at the scene, while a three-year-old boy was injured and taken to the Royal Children's Hospital with serious but non-life-threatening injuries to their arm.
+He remains in hospital in a stable condition this morning.﻿
+Federal Member for Menzies Keith Wolahan said the teacher was a ""hero who sacrificed her life to save children in her care"".
+""I hope her family finds comfort in her courage. May she rest i﻿n peace,"" he said, on Facebook.
+Von Tunk said the child had ""a very near-miss"" and that ""a group of children who were in very close proximity"" to being involved in the ""tragically sad﻿"" crash, as were the teachers.
+He said ""play time"" was just finishing at the centre when the truck crashed into the facility.
+""There will be some kids getting squeezed very tightly tonight,"" he said.
+
+A woman died at the scene, with a child and the tanker driver taken to hospital. 
+﻿The driver of the truck, who is from Broadford, was also taken to the Royal Melbourne Hospital in a stable condition.
+Von Tuck said police and paramedics spoke to the driver after the crash.
+McKenzie said his ""small family-owned business"" was ""devastated following the tragic crash"".
+""We are in shock and offer our heartfelt condolences to everyone involved,"" he said, in a statement.
+
+The water tanker crashed into the kindergarten on Main Road in Riddells Creek.
+""This is an incredibly distressing time, and our deepest sympathies go to those involved and their families and friends.""
+He said the driver was in hospital and being supported by the company.
+""We thank staff and emergency workers who responded. We are assisting authorities with their investigations,"" McKenzie said.
+""McKenzie Water Pty Lid has been operating in Melbourne and Victoria for 40 years, and our priority has always been safety and compliance.""
+A witness told 9News ﻿there were ""a lot of very stressed parents"" at the scene, including a man with blood on his jumper.
+
+Von Tuck said﻿ the kindergarten buildings were not hit in the crash but play equipment was extensively damaged﻿.
+The exact circumstances are being investigated.
+Anyone with information should call Crime Stoppers on 1800 333 000.
+The incident comes 13 days after a car crashed through the fence at Auburn South Primary School in Hawthorn East in inner Melbourne, killing 11-year-old Jack Davey and injuring four other students.","A three-year-old child ï»¿was hurt but a shocked detective said it was ""unbelievable"" the 43-year-old woman was the only person to die.",16894,AU,True,0.0,"The headline mentions the 'hero' (Eleanor Bryant) and the 'truck,' but it does not explicitly mention the driver of the truck or the child who was hurt.",0.0,The headline refers to the 'hero' (a human term) but describes the truck as an object rather than the driver. The truck driver is not explicitly mentioned as a human.,1.0,"The headline uses active voice to describe the crash ('smashed into'), clearly showing the action performed by the truck.","Truck driver suffers medical episode, crashes into kindergarten, killing teacher Eleanor Bryant and injuring a child","The original headline only mentioned the 'hero' and the truck. The revised headline includes the truck driver, the teacher Eleanor Bryant, and the child.",The original headline used 'truck' to describe the driver. The revised headline uses 'truck driver' to humanize the party involved.,"The original headline was passive ('killed when truck smashed'). The revised headline uses active voice ('crashes into kindergarten, killing teacher Eleanor Bryant and injuring a child').",True,16894,"[{'id': 42523, 'groupid': None, 'transportationmode': 1, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42524, 'groupid': None, 'transportationmode': 12, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42525, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}]",0,0,2,1
+19418,Otago Daily Times Online News,2024-11-12 00:00:00,https://www.odt.co.nz/news/australia/hole-our-hearts-family-mourn-woman-killed-pre-school-crash-tragedy,https://www.odt.co.nz/sites/default/files/styles/odt_story_opengraph_1200w/public/story/2024/11/eleneyorbrynats.jpg?itok=70ShE1tq,'Hole in our hearts': Family mourn woman killed in pre-school crash tragedy,"The family of a kindergarten worker killed when a truck smashed into a Victoria pre-school says she was the light of their lives and they will ""miss her like crazy"".
+
+Eleanor Bryant, 43, was killed when an out-of-control truck crashed into the Macedon Ranges Montessori Preschool's playground, northwest of Melbourne on Monday.
+
+The speech pathologist died at the scene and a three-year-old boy was taken to the Royal Children's Hospital.
+
+Ms Bryant's family said there was an enormous hole in their hearts and they would ""miss her like crazy"".
+
+    Speech pathologist and mother-of-two Eleanor Bryant has been identified as the victim of a truck crash at a Riddells Creek kindergarten yesterday afternoon.
+
+    A water truck ploughed into Macedon Ranges Montessori Preschool in the small town north-west of Melbourne around 2.20pm,… pic.twitter.com/HELA0MZBNB
+    — 10 News First Melbourne (@10NewsFirstMelb) November 12, 2024
+
+""She was the light of our lives: a cherished mother, wife, daughter and sister, and beloved by all her family and enormous network of friends,"" her family said in a statement.
+
+""Her infectious smile, sense of humour and passion for life made her a joy to be around.
+
+""There is an enormous hole in our hearts today.""
+
+The family thanked emergency services and the public for laying tributes as they requested privacy.
+
+Dozens of bunches of flowers have been placed along the kindergarten's fence by mourners, including children with tears in their eyes.
+
+Police are yet to interview the 68-year-old driver whose tanker veered off the road and ploughed into the kindergarten.
+
+Victorian Police Commissioner Shane Patton said the driver remained under hospital observation and would be interviewed once he was medically cleared.
+
+Mr Patton said it was still too early to confirm whether the driver suffered a medical episode.
+
+""We're not going to rule anything in, and we're not going to rule anything out at this stage,"" he told ABC Melbourne Radio on Tuesday.
+
+In an emotional tribute on Tuesday, Nine's Today Show presenter Alex Cullen described his childhood friend as ""a light that lit up every room.""
+
+""It does not surprise me one bit that Eleanor pushed those school kids out of the way yesterday to ultimately save their lives, she always, always put others first and was a great example to all of us,"" he said.
+
+She was an accomplished speech pathologist who grew up in Coonamble in New South Wales' central west and leaves behind a husband, 11-year-old son and nine-year-old daughter.
+
+Mr Patton described Ms Bryant as heroic after preliminary briefings indicated she moved multiple young children out of the truck's way.
+
+""Just so brave, and the whole incident is an absolute tragedy,"" he said.
+
+A boy hurt in the accident was treated for an arm injury, which ambulance officials said was not life-threatening.
+
+Detective Senior Sergeant Christian Von Tunk said initial investigations indicated the truck lost control on a bridge about 120m from the pre-school.
+
+The local basketball club said they were devastated by the loss of Ms Bryant, who was their equipment and uniform co-ordinator.
+
+""Eleanor was the most kind, thoughtful and funny friend,"" the club's Facebook post read.
+
+""She gave generously to her community and was committed to supporting the RCR kids to get onto the court. Most importantly, Eleanor was an amazing mum and wife.""
+
+McKenzie Water owner Alan McKenzie confirmed the truck belonged to his company.
+
+""Our experienced 68-year-old driver is understood to have suffered a medical episode and remains in hospital ... we are doing what we can to support him and his family,"" he said.
+
+Macedon Ranges Shire Council CEO Bernie O'Sullivan offered his deepest condolences and vowed to support those affected.
+
+The crash comes less than two weeks after 11-year-old Jack Davey was killed and four other students injured after an SUV crashed through a fence at Auburn South Primary School in Melbourne's east.",The family of a kindergarten worker killed when a truck smashed into a Victoria pre-school says she was the light of their lives and they will ...,16894,AU,True,0.0,"The headline mentions 'woman' but does not reference the truck or the driver, omitting key parties involved in the crash.",0.0,"The headline refers to 'woman,' which is a human term, but it does not mention the truck driver, who is also a human involved in the crash.",0.0,"The headline uses passive construction with 'killed in pre-school crash tragedy,' which obscures agency and does not clearly show who performed the action.","Truck driver crashes into preschool playground, killing kindergarten worker and injuring toddler","The original headline only mentioned the family and the woman killed. The revised headline includes the truck driver, the kindergarten worker (Eleanor Bryant), and the toddler.","The original headline used the term 'pre-school crash tragedy,' which is not human-centered. The revised headline uses 'truck driver,' 'kindergarten worker,' and 'toddler,' which are all human terms.","The original headline was in passive voice, focusing on the tragedy rather than the actions of the individuals involved. The revised headline is in active voice, clearly showing that the truck driver crashed into the preschool playground, killing the kindergarten worker and injuring the toddler.",True,16894,"[{'id': 42523, 'groupid': None, 'transportationmode': 1, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42524, 'groupid': None, 'transportationmode': 12, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42525, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}]",0,0,2,1
+19403,9news.com.au,2024-11-10 00:00:00,https://www.9news.com.au/national/melbourne-epping-crash-john-bato-family/53113514-6702-4c5c-b7d0-be2fbdc7dd6b,https://imageresizer.static9.net.au/VzijvqgJl5LhdM_UFoMFSMwhDdk=/1200x628/smart/https%3A%2F%2Fprod.static9.net.au%2Ffs%2F6b09d254-a9ce-41bb-af49-bc2319628a0b,Brother of man killed when driver mounted footpath in Melbourne decries 'senseless act',"The family of a pedestrian killed when an out-of-control car mounted the footpath and struck him in Melbourne say it was a ""senseless act"".
+John Bato, 63, is being remembered as a compassionate man who loved his dog and fishing.
+He was a son, an uncle and to his brother Bill, a best mate.
+
+The family of a pedestrian killed when an out-of-control car mounted the footpath and struck him in Melbourne say it was a ""senseless act"".John Bato, 63, is being remembered as a compassionate man who loved his dog and fishing.
+John Bato, 63, left, is being remembered as a compassionate man who loved his dog and fishing. 
+""He didn't deserve that, as a normal pedestrian, a normal pedestrian, and getting killed,"" Bill said.
+He was on his regular morning walk when a hoon mounted the footpath, striking the Mill Park man just as he had crossed Dalton Road in Epping.
+""I can't believe it can happen, a person walking on the footpath, taking a stroll, struck by a driver out of control,"" Bill said.
+﻿
+A witness called police just moments before the deadly crash.
+""Those couple of minutes ruined our life forever. Forever,"" Bill said.
+""And it's so sad. So sad that he disappears this way. It's ridiculous. I'm still coming to terms.""
+John worked as a security guard at Parliament House and as a butcher.
+Now retired, he looked after his elderly mother.
+His sister-in-law Frances Bato said his mother was ""crushed"".
+""We're all crushed. John was her main carer, so we lost a carer, she really loved him,"" she said.
+The family of a pedestrian killed when an out-of-control car mounted the footpath and struck him in Melbourne say it was a ""senseless act"".John Bato, 63, is being remembered as a compassionate man who loved his dog and fishing.
+The driver narrowly missed other pedestrians on in Melbourne.
+The driver narrowly missed other pedestrians.
+Those witnesses performed CPR and tied to help John, but he couldn't be saved.
+His family say they're grateful he didn't die alone.
+The 27-year-old driver was seriously injured and remained at the Royal Melbourne Hospital under arrest today. No charges had been laid","The family of a pedestrian killed when an out-of-control car mounted the footpath and struck him in Melbourne say it was a ""senseless act"".",16897,AU,True,1.0,The headline references all key parties involved in the crash: the 'brother of man killed' and the 'driver'.,1.0,The headline refers to all involved parties as humans: 'brother of man' and 'driver'.,1.0,The headline uses active voice to describe the crash with the phrase 'when driver mounted footpath'.,"Driver strikes and kills pedestrian on Melbourne footpath, brother of victim calls it a 'senseless act'","The original headline did not mention the driver. The revised headline includes the driver, the pedestrian (victim), and the brother of the victim.","The original headline used 'car' and 'footpath.' The revised headline uses 'driver,' 'pedestrian,' and 'brother,' which are all human terms.","The original headline used a passive construction. The revised headline uses active voice, clearly showing that the driver struck the pedestrian.",True,16897,"[{'id': 42526, 'groupid': None, 'transportationmode': 1, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42527, 'groupid': None, 'transportationmode': 5, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}]",0,0,1,1
+19411,9news.com.au,2024-11-09 00:00:00,https://www.9news.com.au/national/police-investigating-after-pedestrian-killed-building-struck-in-fatal-crash/fd9f7b89-ace9-44c3-8448-57a22a92d3af,https://imageresizer.static9.net.au/nYW_MwZLzZvfE0c-iSJRiNyx4P0=/36x0:1721x947/1200x628/smart/https%3A%2F%2Fprod.static9.net.au%2Ffs%2Fbaa47eba-a687-4cfc-aae1-5d224e2739d6,Witness describes 'gut-wrenching' scene as pedestrian killed in Melbourne crash,"A 27-year-old man is in hospital under police guard after a 63-year-old man was fatally struck ﻿by a car in Melbourne's north this morning.
+Police were called to Dalton Road in Epping about 10am after reports a car had mounted the footpath and hit a pedestrian.
+""It's just gut-wrenching, you know, like the poor guy was just going about his business, and he's ended up unfortunately passing away,"" witness Trevor Buckingham told 9News.
+
+Detectives are investigating after a pedestrian was fatally struck by a car in Melbourne's north this morning. 
+Buckingham told 9News they heard a bang before people rushed to try and help the 63-year-old Mill Park man, but he died at the scene.﻿
+The 27-year-old who was allegedly driving the wayward car was freed from the wreck and taken to hospital.
+Police said they are investigating whether the Glenroy man was affected by drugs or alcohol, or if he was speeding at the time of the crash.
+""We can only implore people not to do that but people who do it, just continue to do it, and it's frustrating because it's totally unnecessary,"" Detective Sergeant Daryll Out said.
+
+Police said they are investigating whether the Glenroy man was affected by drugs or alcohol, or if he was speeding at the time. 
+﻿After allegedly hitting the pedestrian, the Hyundai hit a power pole and spun around before slamming into a TAFE building, according to police.
+The car also narrowly missed several other people out on their morning walk.
+""They were lucky to have not been struck as well, so it could have been four people killed,"" Out said.
+Moments before the crash, witnesses told 9News they saw the driver slumped at the wheel of his car at this intersection. 
+
+﻿After allegedly hitting the pedestrian, the Hyundai hit a power pole and spun around before slamming into a TAFE building, according to police. 
+9News understands that when witnesses tapped on his window, he woke up and drove 700 metres down the road before hitting the pedestrian.
+""It's infuriating because of the senselessness of someone being killed just because they've gone for a walk, when someone who's driven in a manner that they know they shouldn't be doing, but they do it regardless,"" Out said.
+The 27-year-old is in hospital under police guard and will be questioned after he is medically cleared.
+No charges have yet been laid.",A 27-year-old man is in hospital under police guard after a 63-year-old man was fatally struck by a car in Melbourne's north.,16897,AU,True,1.0,"The headline mentions the pedestrian who was killed and the witness who described the scene. The driver is implied but not explicitly mentioned, but since the witness and pedestrian are mentioned, the score is 1.",1.0,"The headline refers to a 'pedestrian' and a 'witness,' both of which are human terms.",0.0,"The headline uses passive voice with 'killed in crash,' which obscures agency.",27-Year-Old Driver Hits and Kills 63-Year-Old Pedestrian in Melbourne Crash,The original headline only mentioned the pedestrian and a witness. The rewritten headline includes both the 27-year-old driver and the 63-year-old pedestrian.,The original headline used the term 'pedestrian' and 'car.' The rewritten headline uses '27-year-old driver' and '63-year-old pedestrian' to humanize the parties involved.,"The original headline was in passive voice ('pedestrian killed'). The rewritten headline is in active voice ('27-Year-Old Driver Hits and Kills'), clearly showing who did what to whom.",True,16897,"[{'id': 42526, 'groupid': None, 'transportationmode': 1, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42527, 'groupid': None, 'transportationmode': 5, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}]",0,0,1,1
+19414,9news.com.au,2024-11-08 00:00:00,https://www.9news.com.au/national/western-ring-road-driver-dies-in-freak-collision-on-major-melbourne-freeway/2df05b6e-4f44-4dc6-94d6-e14a8199d702,https://imageresizer.static9.net.au/dsWpaXeTo0k9QL7rSmyphW11m20=/1200x628/smart/https%3A%2F%2Fprod.static9.net.au%2Ffs%2Fe12c30db-e0ad-4002-b039-68502772ea71,Family mourn Melbourne mum killed by flying metal tool on freeway as police hunt driver,"Police are searching for the driver of a truck after a metal tool fell from the vehicle and hit the windscreen of another car on a Melbourne freeway, killing a Deer Park mother at the wheel.
+Mary-Anne Cutajar, 46, died when her sedan was struck by the metal tool near the Furlong Road exit in St Albans yesterday afternoon.
+The mother and wife has been remembered by her family as a ""beautiful soul""﻿ in the aftermath of her tragic death.
+
+Mary-Anne Cutajar, 46, died when her sedan was struck by the metal tool near the Furlong Road exit in St Albans yesterday afternoon. 
+The Deer Park mother was described as a ""beautiful soul"" by her grieving family. 
+Detective Sergeant Mark Amos said it was believed the metal object bounced over the freeway divider, landed in the Greensborough-bound lanes, and struck a sedan near the Furlong Road exit in St Albans about 4pm.
+Images of the tool have been released in a bid to identify the white tray truck involved.
+Cutajar, who was the sole occupant of the car struck by the object, died at the scene.
+""Very sadly, as a result, the piece of metal penetrated the windscreen and struck the driver,"" Amos said.
+""The lady sadly lost her life.""﻿
+Police have released this image as they search for the driver in the M80 Ring Road crash.
+
+The Riv-Nail Driver system is part of a system for installing rivets to securely fasten metal clips onto the end of conveyor belts.
+
+Police are still looking for the driver of the truck, who failed to stop and was last seen travelling Altona-bound on the freeway.
+The piece of metal is believed to be a Riv-Nail Driver system, a specialised tool designed for maintaining conveyor belts such as those in the mining, manufacturing and food processing industries.
+The tool is part of a system for installing rivets to securely fasten metal clips onto the end of conveyor belts.
+
+MELBOURNE: Ring Road crash, woman dead after metal fell off truck, piercing window and killing driver. Incident 7.11.24
+A driver has been killed after a large metal tool fell off a truck and hit her windscreen. 
+It is not known whether the driver of the truck knew what had happened.
+""We have a minimum description of the vehicle, a white tray truck,"" Amos said.
+""We need to try and find some answers for this poor woman's family because it's a really sad set of events and we want to work out why it has occurred and give some answers to (the family) who are sadly going to this year's Christmas minus one person.
+""We need to take greater care, if you have a load on the trailer or a truck, just secure it. If you see debris on the roads, report it.
+""We have to be responsible with what we do and until we start treating the roads with some respect, sadly I fear I will be doing this for the rest of my life.""
+
+All Greensborough-bound lanes of the Ring Road were closed after the woman's death. 
+MELBOURNE: Ring Road crash, woman dead after metal fell off truck, piercing window and killing driver. Incident 7.11.24
+Detective Sergeant Mark Amos urged road users to secure their loads. 
+All Greensborough-bound lanes of the Ring Road were closed following the crash, sparking traffic chaos.
+The roads have since reopened.",Police are still searching for a mystery driver as loved ones mourn the mother who had no way of knowing the tragedy that was about to strike.,16907,AU,True,1.0,"The headline references all key parties involved: 'Family,' 'Melbourne mum,' and 'driver.'",1.0,"The headline refers to all parties using human terms: 'Family,' 'Melbourne mum,' and 'driver.'",1.0,The headline uses active voice to describe the crash: 'killed by flying metal tool.',"Truck driver loses metal tool on freeway, killing Deer Park mother in her car","The original headline mentioned the family and the mother, but not the truck driver. The revised headline includes the truck driver.",The original headline used 'flying metal tool' and 'driver' in a generic sense. The revised headline specifies 'truck driver' and 'Deer Park mother.',The original headline used passive voice with 'killed by' and 'hunt driver.' The revised headline uses active voice with 'loses metal tool' and 'killing.',True,16907,"[{'id': 42547, 'groupid': None, 'transportationmode': 5, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42548, 'groupid': None, 'transportationmode': 12, 'health': 1, 'child': 0, 'underinfluence': 0, 'hitrun': 1}]",0,1,0,1
+19415,9news.com.au,2024-11-07 00:00:00,https://www.9news.com.au/national/heidelberg-west-woman-suffers-lifethreatening-injuries-after-ebike-crash-on-melbourne-road/c87c9d27-5931-415e-8afb-4c65c24e73e1,https://imageresizer.static9.net.au/Fu4OAKIoqIn9rV6D5s4V0GNQZKs=/0x524:5994x3895/1200x628/smart/https%3A%2F%2Fprod.static9.net.au%2Ffs%2Fdd3da983-5b42-4eb7-9d18-37baf6e156b5,Woman suffers life-threatening injuries after e-bike crash on Melbourne road,"A woman has been left with serious injuries after she was involved in a crash on a busy Melbourne road yesterday.﻿
+Police believe the crash occurred while a woman was riding a black e-bike near Bell Street and Oriel Road about 3.40pm.
+It's understood she came off the bike, suffering life-threatening injuries.
+
+﻿The 42-year-old Ivanhoe woman was taken to hospital, where she remains.
+Police are investigating the circumstances surrounding the crash.",A woman has been left with serious injuries after she was involved in a crash on a busy Melbourne road yesterday.,16908,AU,True,1.0,"The headline mentions the key party involved in the crash, 'woman'. The article describes a single-party crash, so this criterion is met.",1.0,"The headline refers to the involved party as a 'woman,' which is a human term.",0.0,The headline uses a passive construction ('suffers life-threatening injuries') which obscures agency.,"Driver strikes woman riding e-bike, leaving her with life-threatening injuries on Melbourne road",Added 'Driver' to mention all parties involved in the crash.,Replaced 'e-bike' with 'woman riding e-bike' to refer to the parties using human terms.,Used active voice to clearly show that the driver struck the woman riding the e-bike.,True,16908,"[{'id': 42549, 'groupid': None, 'transportationmode': 2, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}]",0,0,1,0
+19416,9news.com.au,2024-10-31 00:00:00,https://www.9news.com.au/national/hawthorn-east-crash-victorian-premier-jacinta-allen-tells-of-shock/ff393a32-ba97-430f-a018-b060f874d94d,https://imageresizer.static9.net.au/Yt-ujDEEwe-BKD5kvsHr6rmqRNc=/1200x628/smart/https%3A%2F%2Fprod.static9.net.au%2Ffs%2F0936b55c-06e0-4913-ba74-55437b17522b,'My Jackie-boi': Dad's emotional tribute to Melbourne school crash victim Jack Davey,"The father of Jack Davey, who was killed when a car crashed into his Melbourne primary school, has paid tribute to his ""inspiration and motivation"" in an emotional statement.
+In an Instagram post alongside a photo of Jack in a Melbourne Demons cap, scarf and jersey, his dad Michael Davey paid tribute to his ""beautiful son"".
+""A shooting star who blessed us for 11 years with love, friendship and kindness,"" Mr Davey wrote.
+
+In an Instagram post alongside a photo of Jack in a Melbourne Demons cap, scarf and jersey, his dad Michael Davey paid tribute to his ""beautiful son"". 
+""You were my inspiration and motivation. I cannot comprehend the life ahead without you.﻿
+""My mate, my champ, my Jackie-boi...""
+""Godspeed until we meet again ... I love you. Dad x.""﻿
+A growing pile of flowers, teddies, toys can be seen outside Auburn South Primary School where the 11-year-old died on Tuesday.
+More than $200,000 has been raised for Jack's family and the four other students who were injured when a SUV driven by a parent lost control and crashed into the school's fence during afternoon recess on Tuesday.
+Jack's parents and sisters came to the scene last night to take in the overflowing tributes the community has left them in an outpouring of grief.
+Jack was remembered as a talented futsal player who represented Victoria and Australia for his age group. 
+Family friend Lucy Pristel, who started the online GoFundMe fundraiser for the Davey family, described Jack as a ""beautiful kid"" who loved his sport.
+""He was so good at sport. He was just a sweet, sweet soul,"" Pristel said.
+""He was sitting on a chair having a chat with the girls in the sunshine, which is just him.""﻿
+The Australian Futsal Association's Melbourne branch remembered the ""cherished"" and talented indoor soccer player, who represented both Victoria and Australia for his age group.
+""His talent shone brightly as he represented our state at the National Titles for the last two years,"" the association said in a heartfelt Facebook post.
+""In 2024, he earned a place on the Australian U12 Boys touring team that visited Fiji. ﻿
+""Jack was a vital member of that team as they won the championship.""
+Family friend Lucy Pristel described Jack as a ""beautiful kid"" who loved his sport. 
+""Rest peacefully, sweet Jack.
+""You will forever hold a special place in our hearts.﻿""
+The 11-year-old was also been remembered as an active member of the local football and basketball communities.
+Pristel told TODAY this morning devastated students at the school were being offered support.
+""We've had counsellors reach out. They've got one on one sessions. The school has just been phenomenal,"" she said.
+""Other schools around the community are actually sending teachers down to help.
+Jack Davey, 11, was killed in the crash at Auburn South Primary School.
+""And all we keep saying to the children is, you know, just whatever you feel is what you need to feel.
+""The school did reopen yesterday, not for official classes, but just so everyone could be together.
+The P-plate driver - a 40-year-old woman and a mother of a student at the school, is believed to have been at a meeting in the minutes before that crash.
+The mother was arrested at the scene but released pending further inquiries.﻿﻿
+She had just collected a child ﻿from the school and was performing a U-turn when the car went through the fence, hitting a table where five children were seated by the school's sports field, police said.
+Two 11-year-old girls, a 10-year-old girl and a 10-year-old boy were all taken to hospital with serious injuries.
+Jack Davey, 11, has died after being hit by a car while at Auburn South Primary School. 
+Students and parents were seen leaving flowers outside the school. 
+As of this morning, two of them remained in the Royal Children's Hospital in a stable condition.
+One patient has been transferred from Monash Medical Centre to Monash Children's Hospital in a stable condition.
+One patient has been discharged from Dandenong Hospital.
+The driver and her child were not injured.
+The City of Boroondara announced a community hub offering support for the community would be open at Anderson Park, Hawthorn from 11am Thursday.
+""To provide immediate support, we are partnering with the SES, Red Cross, Victorian Council of Churches, the Salvation Army and the Victoria Police community policing unit to establish a community support hub at Anderson Park, corner of Henham Street and Anderson Road, Hawthorn,"" a council spokesperson said.
+""This space is available to provide solidarity, comfort, and access to community support services for neighbouring residents, families and friends alongside supports the Department of Education is providing the Auburn South Primary School community.
+""We invite all community members to come together during this challenging time.""
+Premier Jacinta Allan has pledged the school community will receive all the counselling and support required in the days ahead. 
+Police are at the scene of the crash at the school in Melbourne yesterday. 
+Victorian Premier Jacinta Allan said yesterday she felt ""sick in the stomach"" when she heard of the fatal crash.
+""When I heard the news yesterday afternoon, parliament was sitting ... then you received this news of the accident,"" she told Today.
+""My stomach just lurched and I think any parent ... of a child at a primary school yesterday felt particularly sick.""
+Allan, the mother of a primary school-aged son, said she understood the impact of the tragedy on the ﻿local community.
+""But speaking to the principal yesterday, they're a strong community,"" she said.
+The premier says the state government today is focusing on supporting the students, families, teachers and staff from the school as well as the first responders who were at the scene.
+She pledged they would receive all the counselling and support needed.﻿
+""Today is going to be tough, but so will tomorrow,"" she said.
+""And the weeks and months ahead.
+""So we will need to provide that support ongoing for some time.""","A growing pile of flowers, teddies, toys can be seen outside Auburn South Primary School where 11-year-old ...",16909,AU,True,0.0,"The headline only mentions the victim, Jack Davey, and his father. It does not reference the driver or the vehicle involved in the crash.",1.0,"The headline refers to the victim using human terms ('Dad', 'school crash victim', 'Jack Davey').",0.0,The headline does not use active voice to describe the crash. It focuses on the emotional tribute rather than the action of the crash.,"A Parent Crashes SUV into Melbourne School, Killing Student Jack Davey and Injuring Four Others",The original headline did not mention the driver. The rewritten headline includes 'A Parent' to specify the driver and mentions Jack Davey and the four other students who were injured.,"The original headline used 'car' and 'school crash victim.' The rewritten headline uses 'Parent,' 'Student,' and 'Others' to refer to the parties involved.","The original headline was more descriptive than active. The rewritten headline clearly states 'A Parent Crashes SUV,' showing who did what to whom.",True,16909,"[{'id': 42557, 'groupid': None, 'transportationmode': 1, 'health': 3, 'child': 1, 'underinfluence': 0, 'hitrun': 0}, {'id': 42558, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}, {'id': 42559, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}, {'id': 42560, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}, {'id': 42561, 'groupid': None, 'transportationmode': 1, 'health': 2, 'child': 1, 'underinfluence': 0, 'hitrun': 0}, {'id': 42562, 'groupid': None, 'transportationmode': 5, 'health': 1, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 42563, 'groupid': None, 'transportationmode': 5, 'health': 1, 'child': 1, 'underinfluence': 0, 'hitrun': 0}]",0,2,4,1
+18321,wkrn.com,2024-08-24 00:00:00,https://www.wkrn.com/news/local-news/nashville/1-dead-3-injured-after-vehicle-runs-stop-sign-in-nashville/,,"1 dead, 3 injured after vehicle runs stop sign in Nashville","NASHVILLE, Tenn. (WKRN) — One woman is dead and three people were injured, including two juveniles, after a crash Friday night in Nashville.
+
+In a release, the Metropolitan Nashville Police Department said the incident occurred around 6:40 p.m. on the block of Ewing Drive and Gwynnwood Drive.
+
+According to police, a 36-year-old woman was driving an Infiniti QX6 southbound on Gwynnwood Drive with two juvenile passengers, ages 7 and 14.
+
+The Infinity driver reportedly ran a stop sign and crashed into the driver’s side of a Chevrolet Camaro heading eastbound on Ewing Drive, driven by a 46-year-old Nashville woman. The 46-year-old was then transported to Skyline Medical Center where she died. Her identity has yet to be released.
+
+The driver and passengers of the Infiniti were taken to Vanderbilt University Medical Center for treatment of unknown injuries, according to Metro police.
+
+MNPD stated there were no signs either driver was impaired at the time.
+
+This is a developing story. WKRN News 2 will continue to update this article as new information becomes available.","One woman is dead and three people were injured, including two juveniles, after a crash Friday night in Nashville.",15964,US,True,0.0,"The headline does not mention the Chevrolet Camaro driver, who is a key party involved in the crash.",0.0,"The headline uses dehumanizing statistics without human context ('1 dead, 3 injured').",1.0,The headline uses active voice to describe the crash ('vehicle runs stop sign').,"Driver kills Nashville woman, injures three others after running stop sign","The original headline only mentioned '$1 dead' and '3 injured.' The rewritten headline specifies the driver of the Infiniti and the Nashville woman who was killed, as well as the three others injured (the two juveniles and the driver of the Infiniti).",The original headline used 'vehicle.' The rewritten headline uses 'driver' and 'woman' to refer to the individuals involved.,"The original headline was in passive voice. The rewritten headline uses active voice with 'Driver kills' and 'injures,' clearly showing who did what to whom.",True,15964,"[{'id': 40116, 'groupid': None, 'transportationmode': 5, 'health': 3, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 40117, 'groupid': None, 'transportationmode': 5, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 40118, 'groupid': None, 'transportationmode': 5, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}, {'id': 40119, 'groupid': None, 'transportationmode': 5, 'health': 2, 'child': 0, 'underinfluence': 0, 'hitrun': 0}]",0,0,3,1
