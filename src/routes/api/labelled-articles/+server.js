@@ -20,8 +20,7 @@ export async function GET(event) {
                 label_active_voice, 
                 label_crash_vs_accident, 
                 label_human_story
-                // labelled_by_user -- Add if needed
-                // version -- Add if needed
+
             FROM articles 
             WHERE is_labelled = TRUE 
             ORDER BY id 
