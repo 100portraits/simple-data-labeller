@@ -1,20 +1,28 @@
--- D1 Schema for Labeller App
+-- D1 Schema for Labeller App v2 (Multiple Labels per Article)
 
+DROP TABLE IF EXISTS labels; -- Drop dependent table first
 DROP TABLE IF EXISTS articles;
 
 CREATE TABLE articles (
     id INTEGER PRIMARY KEY,             -- Original ID from CSV
     title TEXT NOT NULL,
-    alltext TEXT NOT NULL,
-    is_labelled BOOLEAN DEFAULT FALSE,  -- Track if labelling is complete
-    label_human_centered INTEGER,       -- 0 or 1
-    label_active_voice INTEGER,         -- 0 or 1
-    label_crash_vs_accident INTEGER,    -- 0 or 1
-    label_human_story INTEGER,          -- 0 or 1
-    labelled_by_user TEXT,              -- User who submitted the label
-    version INTEGER NOT NULL DEFAULT 0  -- Optimistic locking version
+    alltext TEXT NOT NULL
+    -- No longer tracking labelling status directly here
+);
+
+CREATE TABLE labels (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, -- Auto ID for each label entry
+    article_id INTEGER NOT NULL,          -- Foreign key to articles table
+    username TEXT NOT NULL,               -- User who submitted this label
+    rating INTEGER,                       -- 1, 2, 3, 4 (NULL if 'Not sure')
+    rating_text TEXT,                     -- Stores 'Not sure' if applicable
+    submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Timestamp of submission
+    FOREIGN KEY (article_id) REFERENCES articles(id)
 );
 
 -- Indexes
-CREATE INDEX idx_labelled_status ON articles (is_labelled);
-CREATE INDEX idx_labelled_by_user ON articles (labelled_by_user, is_labelled); 
+CREATE INDEX idx_labels_article_id ON labels (article_id);
+CREATE INDEX idx_labels_username ON labels (username);
+-- Index to quickly find articles needing labels (useful for next-article query)
+-- This might need refinement based on query performance, but it's a start
+CREATE INDEX idx_labels_article_rating_count ON labels (article_id, rating); 

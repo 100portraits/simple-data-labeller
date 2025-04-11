@@ -32,13 +32,8 @@
     let isLoadingLeaderboard = false;
     let leaderboardError = null;
 
-    // Object to hold the label values for the current article
-    let labels = {
-        human_centered: null,
-        active_voice: null,
-        crash_vs_accident: null,
-        human_story: null
-    };
+    // Single label state for the current article
+    let currentRating = null; // Holds 1, 2, 3, 4, or "Not sure"
 
     // --- Functions ---
 
@@ -49,7 +44,7 @@
         error = null;
         currentArticle = null;
         allDone = false;
-        resetLabels(); // Reset labels for the new article
+        currentRating = null; // Reset the rating for the new article
 
         try {
             const response = await fetch('/api/next-article');
@@ -59,10 +54,10 @@
             }
             const article = await response.json();
             if (article) {
-                console.log(`Fetched article ID: ${article.id}, version: ${article.version}`);
+                console.log(`Fetched article ID: ${article.id}`); // No version anymore
                 currentArticle = article;
             } else {
-                console.log('All articles are labelled.');
+                console.log('All articles are labelled or assigned enough times.');
                 allDone = true; // No more articles
                 await fetchProgress(); // Update progress one last time
             }
@@ -89,21 +84,16 @@
             return;
         }
 
-        const missingLabels = Object.entries(labels)
-            .filter(([, value]) => value === null)
-            .map(([key]) => key);
-            
-        if (missingLabels.length > 0) {
-            console.warn('Submission blocked: Missing labels for', missingLabels.join(', '));
-            alert(`Please select a value for all criteria: ${missingLabels.join(', ')}`);
+        if (currentRating === null) {
+            console.warn('Submission blocked: Rating not selected.');
+            alert(`Please select a rating (1-4 or Not sure).`);
             return;
         }
 
-        console.log(`Attempting to submit labels for article ID: ${currentArticle.id} (version: ${currentArticle.version}) by user: ${username}`);
+        console.log(`Attempting to submit label for article ID: ${currentArticle.id} by user: ${username} with rating: ${currentRating}`);
         submitting = true;
         error = null;
         const submittedId = currentArticle.id; 
-        const submittedVersion = currentArticle.version;
 
         try {
             const response = await fetch('/api/submit-label', {
@@ -112,13 +102,9 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: submittedId,
+                    articleId: submittedId, // Changed from id
                     username: username,
-                    version: submittedVersion,
-                    label_human_centered: labels.human_centered,
-                    label_active_voice: labels.active_voice,
-                    label_crash_vs_accident: labels.crash_vs_accident,
-                    label_human_story: labels.human_story
+                    rating: currentRating // Send the single rating
                 })
             });
             
@@ -126,11 +112,18 @@
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Could not parse error response.' })); 
-                if (response.status === 409) {
-                    console.warn(`Conflict detected for article ID ${submittedId}:`, errorData.error);
-                    error = `${errorData.error || 'This article was updated by someone else.'} Please fetch the next article.`;
+                // Status 409 conflict is no longer expected with the new logic (no version check)
+                // Check for potential duplicate submission message (status 200 with { message: 'Already labelled' })
+                 if (response.status === 200 && errorData.message === 'Already labelled') {
+                    console.warn(`User ${username} already labelled article ${submittedId}. Fetching next.`);
+                    error = 'You have already submitted a rating for this article. Fetching the next one.';
+                    // Still fetch next article even if it was a duplicate submission attempt
+                    await Promise.all([
+                        fetchNextArticle(),
+                        fetchProgress()
+                    ]);
                 } else {
-                    throw new Error(`Submit failed: ${response.status} ${response.statusText}. ${errorData.error || ''}`);
+                    throw new Error(`Submit failed: ${response.status} ${response.statusText}. ${errorData.error || 'Unknown server error'}`);
                 }
             } else {
                 console.log(`Labels submitted successfully for article ID: ${submittedId} by ${username}`);
@@ -154,15 +147,10 @@
         }
     }
 
-    // Function to reset labels
+    // Function to reset labels (now just one rating)
     function resetLabels() {
-        console.log('Resetting labels');
-        labels = {
-            human_centered: null,
-            active_voice: null,
-            crash_vs_accident: null,
-            human_story: null
-        };
+        console.log('Resetting rating');
+        currentRating = null;
     }
 
     // Function to fetch and display labelled articles
@@ -194,10 +182,10 @@
             const data = await response.json();
             labelledArticles = data;
             showLabelledTable = true; // Show table only after successful fetch
-            console.log(`Fetched ${labelledArticles.length} labelled articles.`);
+            console.log(`Fetched ${labelledArticles.length} fully labelled articles.`);
         } catch (e) {
             console.error('Failed to fetch labelled articles:', e);
-            tableError = 'Failed to load labelled articles. Please try again.';
+            tableError = 'Failed to load fully labelled articles. Please try again.';
             showLabelledTable = false; // Keep table hidden on error
         } finally {
             isLoadingTable = false;
@@ -253,6 +241,8 @@
                 throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
             }
             progress = await response.json();
+            // Example: Display total labels submitted if needed
+            console.log(`Total individual labels submitted: ${progress.totalLabelsSubmitted}`);
             progressError = null; // Clear error on success
             console.log('Progress status updated:', progress);
         } catch (e) {
@@ -392,10 +382,10 @@
                     <span>Loading progress...</span>
                 {:else if progressError}
                     <span class="error-inline">{progressError}</span>
-                {:else if progress.total > 0}
-                    <span>Progress: {progress.labelled} / {progress.total} Labelled ({((progress.labelled / progress.total) * 100).toFixed(1)}%)</span>
-                    <progress value={progress.labelled} max={progress.total}></progress>
-                    <span>({progress.unassigned} remaining)</span>
+                {:else if progress.total > 0} <!-- Check if total articles > 0 -->
+                    <span>Progress: {progress.labelled} / {progress.total} Articles Completed ({progress.requiredPerArticle} labels each)</span>
+                    <progress value={progress.labelled} max={progress.total}></progress> 
+                    <span>({progress.unassigned} articles remaining, {progress.totalLabelsSubmitted} total labels submitted)</span>
                 {:else if !needsUsernameSetup} <!-- Dont show if modal active -->
                     <span>Progress data unavailable.</span>
                 {/if}
@@ -411,49 +401,39 @@
             <p style="color: green; font-weight: bold; text-align: center; margin: 2rem 0;">All articles have been labelled! Thank you!</p>
         {:else if currentArticle}
             <article>
-                <h2>({currentArticle.id} v{currentArticle.version}) {currentArticle.title}</h2>
+                <h2>({currentArticle.id}) {currentArticle.title}</h2>
                 <div class="article-text">
                     <p>{currentArticle.alltext}</p>
                 </div>
                 
                 <form on:submit|preventDefault={submitLabels}>
                     <fieldset>
-                        <legend>1. Language Type:</legend>
+                        <legend>Dehumanization Rating</legend>
+                        <p>
+                            Traffic crashes are events that involve real people and have human consequences. 
+                            News articles can report on these events in ways that either highlight or minimize these human aspects.
+                            <br/>After reading this article about a traffic crash, please rate it on the following scale:
+                        </p>
+                        
                         <label>
-                            <input type="radio" bind:group={labels.human_centered} name="human_centered" value={0}> Object-based Language
+                            <input type="radio" bind:group={currentRating} name="dehumanization_rating" value={1}> 
+                            1 - Strongly dehumanizing: The article treats the crash as a technical incident with little acknowledgment of human involvement or impact.
                         </label>
                         <label>
-                            <input type="radio" bind:group={labels.human_centered} name="human_centered" value={1}> Human-centered Language
+                            <input type="radio" bind:group={currentRating} name="dehumanization_rating" value={2}> 
+                            2 - Somewhat dehumanizing
                         </label>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>2. Voice & Agency:</legend>
-                        <label>
-                            <input type="radio" bind:group={labels.active_voice} name="active_voice" value={0}> Passive / Unclear Agency
+                         <label>
+                            <input type="radio" bind:group={currentRating} name="dehumanization_rating" value={3}> 
+                            3 - Somewhat humanizing
                         </label>
-                        <label>
-                            <input type="radio" bind:group={labels.active_voice} name="active_voice" value={1}> Active Voice / Clear Agency
-                        </label>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>3. Framing:</legend>
-                        <label>
-                            <input type="radio" bind:group={labels.crash_vs_accident} name="crash_vs_accident" value={0}> Uses "Accident"
+                         <label>
+                            <input type="radio" bind:group={currentRating} name="dehumanization_rating" value={4}> 
+                            4 - Strongly humanizing: The article clearly acknowledges the people involved and the human impact of the crash.
                         </label>
                         <label>
-                            <input type="radio" bind:group={labels.crash_vs_accident} name="crash_vs_accident" value={1}> Uses "Crash" / Avoids "Accident"
-                        </label>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>4. Focus:</legend>
-                        <label>
-                            <input type="radio" bind:group={labels.human_story} name="human_story" value={0}> Focus on Traffic/Property
-                        </label>
-                        <label>
-                            <input type="radio" bind:group={labels.human_story} name="human_story" value={1}> Focus on Human Story/Effects
+                            <input type="radio" bind:group={currentRating} name="dehumanization_rating" value={"Not sure"}> 
+                            Not sure
                         </label>
                     </fieldset>
 
@@ -461,8 +441,8 @@
                         <p class="error">Error: {error}</p>
                     {/if}
 
-                    <button type="submit" class="submit-button" disabled={submitting || Object.values(labels).some(v => v === null) || !username}>
-                        {submitting ? 'Submitting...' : 'Submit Labels & Next Article'}
+                    <button type="submit" class="submit-button" disabled={submitting || currentRating === null || !username}>
+                        {submitting ? 'Submitting...' : 'Submit Rating & Next Article'}
                     </button>
                 </form>
             </article>
@@ -481,7 +461,7 @@
                     {:else if showLabelledTable}
                         Hide Labelled Articles ({labelledArticles.length})
                     {:else}
-                        Show Labelled Articles
+                        Show Fully Labelled Articles
                     {/if}
                 </button>
 
@@ -497,10 +477,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Title</th>
-                                    <th>Lang (0/1)</th>
-                                    <th>Voice (0/1)</th>
-                                    <th>Frame (0/1)</th>
-                                    <th>Focus (0/1)</th>
+                                    <th>Labels</th>
+                                    <th>Avg Rating</th>
+                                    <th>Not Sure</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -508,10 +487,9 @@
                                     <tr>
                                         <td>{article.id}</td>
                                         <td>{article.title}</td>
-                                        <td>{article.label_human_centered}</td>
-                                        <td>{article.label_active_voice}</td>
-                                        <td>{article.label_crash_vs_accident}</td>
-                                        <td>{article.label_human_story}</td>
+                                        <td>{article.label_count}</td>
+                                        <td>{article.avg_rating !== null ? article.avg_rating.toFixed(2) : 'N/A'}</td>
+                                        <td>{article.not_sure_count}</td>
                                     </tr>
                                 {/each}
                             </tbody>
@@ -546,7 +524,7 @@
                                 <tr>
                                     <th>Rank</th>
                                     <th>User</th>
-                                    <th>Articles Labelled</th>
+                                    <th>Labels Submitted</th>
                                 </tr>
                             </thead>
                             <tbody>

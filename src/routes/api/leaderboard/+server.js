@@ -16,11 +16,11 @@ export async function GET(event) {
         // Exclude null or empty usernames
         const stmt = db.prepare(`
             SELECT 
-                labelled_by_user as username, 
-                COUNT(*) as count
-            FROM articles 
-            WHERE is_labelled = TRUE AND labelled_by_user IS NOT NULL AND labelled_by_user != ''
-            GROUP BY labelled_by_user
+                username, 
+                COUNT(id) as count -- Count rows in the labels table per user
+            FROM labels 
+            WHERE username IS NOT NULL AND username != '' -- Ensure username is valid
+            GROUP BY username
             ORDER BY count DESC, username ASC -- Order by count descending, then username ascending
         `);
         
