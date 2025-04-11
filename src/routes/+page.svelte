@@ -21,12 +21,6 @@
     let progressError = null;
     let intervalId = null; // For polling progress
 
-    // State for labelled articles table
-    let showLabelledTable = false;
-    let labelledArticles = [];
-    let isLoadingTable = false;
-    let tableError = null;
-
     // --- Leaderboard State ---
     let showLeaderboard = false;
     let leaderboardData = [];
@@ -179,43 +173,7 @@
     }
 
     // Function to fetch and display labelled articles
-    async function toggleLabelledTable() {
-        if (showLabelledTable) {
-            showLabelledTable = false;
-            console.log('Hiding labelled articles table.');
-            return;
-        }
-
-        // --- Ensure other panel is closed --- 
-        if (showLeaderboard) {
-            showLeaderboard = false;
-            console.log('Closing leaderboard to show labelled articles.');
-        }
-        // ------------------------------------
-
-        console.log('Fetching labelled articles...');
-        isLoadingTable = true;
-        tableError = null;
-        labelledArticles = [];
-
-        try {
-            const response = await fetch('/api/labelled-articles');
-            console.log('Fetch labelled articles response status:', response.status);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
-            }
-            const data = await response.json();
-            labelledArticles = data;
-            showLabelledTable = true; // Show table only after successful fetch
-            console.log(`Fetched ${labelledArticles.length} fully labelled articles.`);
-        } catch (e) {
-            console.error('Failed to fetch labelled articles:', e);
-            tableError = 'Failed to load fully labelled articles. Please try again.';
-            showLabelledTable = false; // Keep table hidden on error
-        } finally {
-            isLoadingTable = false;
-        }
-    }
+    // async function toggleLabelledTable() { ... }
 
     // --- New Functions ---
 
@@ -309,11 +267,11 @@
             return;
         }
 
-        // --- Ensure other panel is closed --- 
-        if (showLabelledTable) {
-            showLabelledTable = false;
-            console.log('Closing labelled articles to show leaderboard.');
-        }
+        // --- Ensure other panel is closed (REMOVED labelled table check) --- 
+        // if (showLabelledTable) {
+        //     showLabelledTable = false;
+        //     console.log('Closing labelled articles to show leaderboard.');
+        // }
         // ------------------------------------
 
         showLeaderboard = true; // Show immediately, content will load
@@ -480,55 +438,8 @@
              <button on:click={fetchNextArticle} disabled={isLoading}>Try Loading Next Article</button>
         {/if}
 
-        <!-- Lower Section: Labelled Table & Leaderboard Toggles -->
+        <!-- Lower Section: Leaderboard Toggle -->
         <section class="action-toggles">
-            <!-- Button for Labelled Articles Table -->
-            <div class="toggle-container">
-                <button on:click={toggleLabelledTable} disabled={isLoadingTable} class="toggle-button">
-                    {#if isLoadingTable}
-                        Loading...
-                    {:else if showLabelledTable}
-                        Hide Labelled Articles ({labelledArticles.length})
-                    {:else}
-                        Show Fully Labelled Articles
-                    {/if}
-                </button>
-
-                {#if tableError}
-                    <p class="error">{tableError}</p>
-                {/if}
-
-                {#if showLabelledTable && labelledArticles.length > 0}
-                    <div class="collapsible-content">
-                        <h3>Labelled Articles</h3>
-                        <table class="data-table labelled-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Labels</th>
-                                    <th>Avg Rating</th>
-                                    <th>Not Sure</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {#each labelledArticles as article (article.id)}
-                                    <tr>
-                                        <td>{article.id}</td>
-                                        <td>{article.title}</td>
-                                        <td>{article.label_count}</td>
-                                        <td>{article.avg_rating !== null ? article.avg_rating.toFixed(2) : 'N/A'}</td>
-                                        <td>{article.not_sure_count}</td>
-                                    </tr>
-                                {/each}
-                            </tbody>
-                        </table>
-                    </div>
-                 {:else if showLabelledTable}
-                     <p class="collapsible-content">No articles have been labelled yet.</p>
-                {/if}
-            </div>
-
             <!-- Button for Leaderboard -->
             <div class="toggle-container">
                 <button on:click={toggleLeaderboard} disabled={isLoadingLeaderboard} class="toggle-button">
@@ -806,7 +717,8 @@
     /* --- Lower Section Styles --- */
     .action-toggles {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+        /* Adjust grid if only one item remains */
+        grid-template-columns: 1fr; /* Or adjust as needed if keeping grid */
         gap: 1.5rem;
         margin-top: 2rem;
         padding-top: 1rem;
@@ -859,12 +771,6 @@
         background-color: #e9ecef;
     }
 
-    .labelled-table td:nth-child(2) {
-        max-width: 300px; 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
     .leaderboard-table td:nth-child(2) {
          font-weight: bold;
     }
