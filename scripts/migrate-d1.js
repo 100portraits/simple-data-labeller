@@ -18,6 +18,8 @@ function generateInsertSql() {
     const csvPath = join(process.cwd(), 'static', 'data_full.csv');
     const outputSqlPath = join(process.cwd(), 'scripts', 'insert_data.sql');
     let records;
+    let limitedRecords = [];
+
     try {
         console.log(`Reading CSV from: ${csvPath}`);
         const fileContent = readFileSync(csvPath);
@@ -31,6 +33,12 @@ function generateInsertSql() {
              console.log('CSV file is empty or invalid. No SQL generated.');
              process.exit(0);
         }
+
+        // ---- Limit to first 150 records ----
+        limitedRecords = records.slice(0, 150);
+        console.log(`Limiting processing to the first ${limitedRecords.length} records.`);
+        // -----------------------------------------
+
     } catch (e) {
         console.error('Error reading or parsing CSV:', e);
         process.exit(1);
@@ -47,7 +55,7 @@ function generateInsertSql() {
 
     const baseStmt = 'INSERT INTO articles (id, title, alltext) VALUES ';
 
-    for (const record of records) {
+    for (const record of limitedRecords) {
         if (record.id && record.title && record.alltext && !isNaN(parseInt(record.id, 10))) {
             const id = parseInt(record.id, 10);
             const title = escapeSqlString(record.title);

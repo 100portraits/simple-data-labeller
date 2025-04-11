@@ -1,5 +1,7 @@
 import { json } from '@sveltejs/kit';
 
+const MAX_LABELS_PER_USER = 15; // New user limit
+
 export async function POST(event) {
     const clientAddress = event.getClientAddress();
     // Get D1 instance from Cloudflare environment
@@ -34,6 +36,15 @@ export async function POST(event) {
     console.log(`[${new Date().toISOString()}] Received label submission for article ${articleId} by ${username} with rating ${rating} from ${clientAddress}`);
 
     try {
+        // --- New: Check if user has reached their limit --- 
+        const countStmt = db.prepare('SELECT COUNT(id) as count FROM labels WHERE username = ?1').bind(username);
+        const userLabelCount = await countStmt.first();
+        if (userLabelCount && userLabelCount.count >= MAX_LABELS_PER_USER) {
+            console.warn(`[${new Date().toISOString()}] User ${username} has reached the limit of ${MAX_LABELS_PER_USER} labels. Submission rejected.`);
+            return json({ error: `You have reached the maximum limit of ${MAX_LABELS_PER_USER} submitted labels.` }, { status: 403 }); // 403 Forbidden
+        }
+        // --------------------------------------------------
+
         // Prepare data for insertion
         let ratingValue = null;
         let ratingText = null;

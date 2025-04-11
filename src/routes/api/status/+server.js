@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
-const REQUIRED_LABELS_PER_ARTICLE = 3; // Must match next-article config
+const REQUIRED_LABELS_PER_ARTICLE = 5; // Must match next-article config
 
 export async function GET(event) {
     const clientAddress = event.getClientAddress();

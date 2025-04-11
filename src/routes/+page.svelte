@@ -7,6 +7,7 @@
     let error = null;
     let allDone = false;
     let submitting = false;
+    let userLimitReached = false; // New state for user limit
 
     // --- User Identification ---
     let username = '';
@@ -44,20 +45,36 @@
         error = null;
         currentArticle = null;
         allDone = false;
+        userLimitReached = false; // Reset limit flag on fetch attempt
         currentRating = null; // Reset the rating for the new article
 
+        if (!username) {
+            console.warn('Cannot fetch next article: Username not set.');
+            error = 'Username not set. Please refresh.'; // Should not happen if modal works
+            isLoading = false;
+            return;
+        }
+
         try {
-            const response = await fetch('/api/next-article');
+            // Pass username as a query parameter
+            const response = await fetch(`/api/next-article?username=${encodeURIComponent(username)}`);
             console.log('Fetch response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
             }
-            const article = await response.json();
-            if (article) {
-                console.log(`Fetched article ID: ${article.id}`); // No version anymore
-                currentArticle = article;
+            // Expect { article: {...} | null, limitReached: boolean }
+            const data = await response.json(); 
+
+            if (data.limitReached) {
+                console.log(`User ${username} has reached the label limit.`);
+                userLimitReached = true;
+                allDone = false; // Not all done, just this user
+                currentArticle = null;
+            } else if (data.article) {
+                console.log(`Fetched article ID: ${data.article.id}`);
+                currentArticle = data.article;
             } else {
-                console.log('All articles are labelled or assigned enough times.');
+                console.log('All articles are labelled or no more available for this user.');
                 allDone = true; // No more articles
                 await fetchProgress(); // Update progress one last time
             }
@@ -123,7 +140,15 @@
                         fetchProgress()
                     ]);
                 } else {
-                    throw new Error(`Submit failed: ${response.status} ${response.statusText}. ${errorData.error || 'Unknown server error'}`);
+                    // Check for user limit reached error (status 403)
+                    if (response.status === 403) {
+                        console.warn(`User ${username} reached label limit. Server rejected submission.`);
+                        userLimitReached = true; // Set limit flag
+                        currentArticle = null; // Clear article
+                        error = errorData.error || `You have reached the maximum limit of ${MAX_LABELS_PER_USER} labels.`;
+                    } else {
+                        throw new Error(`Submit failed: ${response.status} ${response.statusText}. ${errorData.error || 'Unknown server error'}`);
+                    }
                 }
             } else {
                 console.log(`Labels submitted successfully for article ID: ${submittedId} by ${username}`);
@@ -397,6 +422,10 @@
         <!-- Main Labelling Area -->
         {#if isLoading && !needsUsernameSetup} <!-- Only show loading if modal not active -->
             <p>Loading next article...</p>
+        {:else if userLimitReached}
+            <p style="color: blue; font-weight: bold; text-align: center; margin: 2rem 0;">
+                Thank you! You have reached the limit of {MAX_LABELS_PER_USER} articles labelled.
+            </p>
         {:else if allDone}
             <p style="color: green; font-weight: bold; text-align: center; margin: 2rem 0;">All articles have been labelled! Thank you!</p>
         {:else if currentArticle}
