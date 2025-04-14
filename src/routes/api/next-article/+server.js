@@ -29,10 +29,13 @@ export async function GET(event) {
     try {
         // --- Check user label count first --- 
         const countStmt = db.prepare('SELECT COUNT(id) as count FROM labels WHERE username = ?1').bind(username);
-        const userLabelCount = await countStmt.first();
-        if (userLabelCount && userLabelCount.count >= MAX_LABELS_PER_USER) {
+        const userLabelCountResult = await countStmt.first();
+        const currentUserCount = userLabelCountResult?.count ?? 0; // Get the count
+
+        if (currentUserCount >= MAX_LABELS_PER_USER) {
             console.log(`[${new Date().toISOString()}] User ${username} reached label limit (${MAX_LABELS_PER_USER}). Returning null.`);
-            return json({ article: null, limitReached: true }, { status: 200 }); // Indicate limit reached
+            // Include count in response even when limit reached
+            return json({ article: null, limitReached: true, userLabelCount: currentUserCount }, { status: 200 });
         }
         // ----------------------------------
 
@@ -59,11 +62,13 @@ export async function GET(event) {
         if (article) {
             // No longer need versioning here as we are inserting into a separate table
             console.log(`[${new Date().toISOString()}] Providing article ID: ${article.id} to ${clientAddress}`);
-            return json({ article: article, limitReached: false }); // Send article and limit status
+            // Include count in response
+            return json({ article: article, limitReached: false, userLabelCount: currentUserCount }, { status: 200 });
         } else {
             // No more articles available that meet the criteria for this user
             console.log(`[${new Date().toISOString()}] No more articles to label for user ${username} from ${clientAddress}.`);
-            return json({ article: null, limitReached: (userLabelCount?.count ?? 0) >= MAX_LABELS_PER_USER }, { status: 200 }); // Return null, indicating completion or limit
+            // Include count in response
+            return json({ article: null, limitReached: currentUserCount >= MAX_LABELS_PER_USER, userLabelCount: currentUserCount }, { status: 200 });
         }
     } catch (error) {
         console.error(`[${new Date().toISOString()}] Error fetching next article for ${clientAddress}:`, error);

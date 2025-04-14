@@ -18,11 +18,12 @@
     let modalUsernameInput = ''; // Separate state for modal input
     let modalError = null; // Error message within the modal
 
-    // --- Progress Tracking ---
-    let progress = { total: 0, labelled: 0, unassigned: 0 };
-    let isLoadingProgress = true;
-    let progressError = null;
-    let intervalId = null; // For polling progress
+    // --- Progress Tracking --- (REMOVED overall progress)
+    // let progress = { total: 0, labelled: 0, unassigned: 0 };
+    // let isLoadingProgress = true;
+    // let progressError = null;
+    // let intervalId = null; // For polling progress
+    let userLabelCount = 0; // New state for user's submitted count
 
     // --- Leaderboard State ---
     let showLeaderboard = false;
@@ -64,16 +65,18 @@
 
             if (data.limitReached) {
                 console.log(`User ${username} has reached the label limit.`);
+                userLabelCount = data.userLabelCount ?? userLabelCount; // Update count
                 userLimitReached = true;
                 allDone = false; // Not all done, just this user
                 currentArticle = null;
             } else if (data.article) {
                 console.log(`Fetched article ID: ${data.article.id}`);
+                userLabelCount = data.userLabelCount ?? userLabelCount; // Update count
                 currentArticle = data.article;
             } else {
                 console.log('All articles are labelled or no more available for this user.');
+                userLabelCount = data.userLabelCount ?? userLabelCount; // Update count even if no article
                 allDone = true; // No more articles
-                await fetchProgress(); // Update progress one last time
             }
         } catch (e) {
             console.error('Failed to fetch article:', e);
@@ -135,7 +138,7 @@
                     // Still fetch next article even if it was a duplicate submission attempt
                     await Promise.all([
                         fetchNextArticle(),
-                        fetchProgress()
+                        // fetchProgress() // REMOVED overall fetch
                     ]);
                 } else {
                     // Check for user limit reached error (status 403)
@@ -150,10 +153,10 @@
                 }
             } else {
                 console.log(`Labels submitted successfully for article ID: ${submittedId} by ${username}`);
-                // Submission successful, fetch the next article AND update progress
+                // Submission successful, fetch the next article AND update progress (REMOVED overall fetch)
                 await Promise.all([
                     fetchNextArticle(),
-                    fetchProgress()
+                    // fetchProgress() // REMOVED overall fetch
                 ]);
                 // If leaderboard is showing, refresh it too
                 if (showLeaderboard) {
@@ -202,12 +205,11 @@
                 isLoading = true; // Show loading indicators again
                 isLoadingProgress = true;
                 fetchNextArticle();
-                fetchProgress();
                 // Start polling if not already started (shouldn't be, but safe check)
-                if (!intervalId) {
-                    intervalId = setInterval(fetchProgress, 30000); 
-                    console.log('Progress polling started after username setup.');
-                }
+                // if (!intervalId) {
+                //     intervalId = setInterval(fetchProgress, 30000); 
+                //     console.log('Progress polling started after username setup.');
+                // }
                 // -------------------------------------------------------------
 
             } catch (storageError) {
@@ -217,28 +219,8 @@
         }
     }
 
-    // Function to fetch progress status
-    async function fetchProgress() {
-        console.log('Fetching progress status...');
-        isLoadingProgress = true;
-
-        try {
-            const response = await fetch('/api/status');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
-            }
-            progress = await response.json();
-            // Example: Display total labels submitted if needed
-            console.log(`Total individual labels submitted: ${progress.totalLabelsSubmitted}`);
-            progressError = null; // Clear error on success
-            console.log('Progress status updated:', progress);
-        } catch (e) {
-            console.error('Failed to fetch progress status:', e);
-            progressError = 'Failed to load progress. Retrying...';
-        } finally {
-            isLoadingProgress = false;
-        }
-    }
+    // Function to fetch progress status (REMOVED)
+    // async function fetchProgress() { ... }
 
     // Function to fetch and display leaderboard
     async function fetchLeaderboard() {
@@ -316,21 +298,21 @@
         // Fetch initial data only if username setup is not needed immediately
         if (!needsUsernameSetup) {
             fetchNextArticle();
-            fetchProgress();
             // Poll for progress updates every 30 seconds
-            intervalId = setInterval(fetchProgress, 30000); 
+            // intervalId = setInterval(fetchProgress, 30000); 
         } else {
              isLoading = false; // Stop main loading indicator if modal is shown
-             isLoadingProgress = false; // Also stop progress loading
+             // isLoadingProgress = false; // REMOVED state
         }
     });
 
     onDestroy(() => {
         // Clear the interval when the component is destroyed
-        if (intervalId) {
-            clearInterval(intervalId);
-            console.log('Progress polling stopped.');
-        }
+        // if (intervalId) {
+        //     clearInterval(intervalId);
+        //     console.log('Progress polling stopped.');
+        // }
+        // REMOVED overall progress interval clearing
     });
 
 </script>
@@ -373,16 +355,9 @@
 
             <!-- Progress Meter -->
             <div class="progress-meter">
-                {#if isLoadingProgress && !needsUsernameSetup} <!-- Only show loading if modal not active -->
-                    <span>Loading progress...</span>
-                {:else if progressError}
-                    <span class="error-inline">{progressError}</span>
-                {:else if progress.total > 0} <!-- Check if total articles > 0 -->
-                    <span>Progress: {progress.labelled} / {progress.total} Articles Completed ({progress.requiredPerArticle} labels each)</span>
-                    <progress value={progress.labelled} max={progress.total}></progress> 
-                    <span>({progress.unassigned} articles remaining, {progress.totalLabelsSubmitted} total labels submitted)</span>
-                {:else if !needsUsernameSetup} <!-- Dont show if modal active -->
-                    <span>Progress data unavailable.</span>
+                {#if !needsUsernameSetup} <!-- Only show if username is set -->
+                    <span>Your Progress: {userLabelCount} / {MAX_LABELS_PER_USER} Articles Labelled</span>
+                    <progress value={userLabelCount} max={MAX_LABELS_PER_USER}></progress> 
                 {/if}
             </div>
         </header>
