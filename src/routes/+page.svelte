@@ -2,6 +2,8 @@
     import { onMount, onDestroy } from 'svelte';
     import { browser } from '$app/environment'; // Import browser check
 
+    const MAX_LABELS_PER_USER = 15; // Define limit for frontend message
+
     let currentArticle = null;
     let isLoading = true;
     let error = null;
@@ -392,7 +394,7 @@
             <p>Loading next article...</p>
         {:else if userLimitReached}
             <p style="color: blue; font-weight: bold; text-align: center; margin: 2rem 0;">
-                Thank you! You have reached the limit of {MAX_LABELS_PER_USER} articles labelled.
+                You've labelled {MAX_LABELS_PER_USER} articles. We're asking only {MAX_LABELS_PER_USER} from each person so that we get a diversity of responses. Thank you!
             </p>
         {:else if allDone}
             <p style="color: green; font-weight: bold; text-align: center; margin: 2rem 0;">All articles have been labelled! Thank you!</p>
