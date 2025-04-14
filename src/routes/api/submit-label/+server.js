@@ -19,7 +19,8 @@ export async function POST(event) {
         return json({ error: 'Invalid request body' }, { status: 400 });
     }
 
-    const { articleId, username, rating } = requestData;
+    const { articleId, username, rating, is_roaddanger } = requestData;
+    const roaddangerFlag = is_roaddanger === true ? 1 : 0; // Convert boolean to 0 or 1
 
     // Validate input
     if (!articleId || !username || rating === undefined || rating === null) {
@@ -73,9 +74,9 @@ export async function POST(event) {
 
         // Insert the new label
         const insertStmt = db.prepare(`
-            INSERT INTO labels (article_id, username, rating, rating_text) 
-            VALUES (?1, ?2, ?3, ?4)
-        `).bind(articleId, username, ratingValue, ratingText);
+            INSERT INTO labels (article_id, username, rating, rating_text, roaddanger_volunteer) 
+            VALUES (?1, ?2, ?3, ?4, ?5)
+        `).bind(articleId, username, ratingValue, ratingText, roaddangerFlag);
 
         await insertStmt.run();
 

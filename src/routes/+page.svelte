@@ -8,6 +8,7 @@
     let allDone = false;
     let submitting = false;
     let userLimitReached = false; // New state for user limit
+    let isRoadDangerVolunteer = false; // Flag for special volunteers
 
     // --- User Identification ---
     let username = '';
@@ -115,7 +116,8 @@
                 body: JSON.stringify({
                     articleId: submittedId, // Changed from id
                     username: username,
-                    rating: currentRating // Send the single rating
+                    rating: currentRating, // Send the single rating
+                    is_roaddanger: isRoadDangerVolunteer // Send the flag
                 })
             });
             
@@ -286,6 +288,14 @@
     onMount(() => {
         console.log('Labeller page mounted.');
         if (browser) {
+            // --- Check for special source parameter --- 
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('source') === 'roaddanger') {
+                isRoadDangerVolunteer = true;
+                console.log('Road Danger volunteer source detected.');
+            }
+            // ------------------------------------------
+
             // Load username from local storage
             const storedUsername = localStorage.getItem('labellerUsername');
             if (storedUsername) {
