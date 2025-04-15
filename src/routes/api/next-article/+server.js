@@ -44,7 +44,7 @@ export async function GET(event) {
         const userLabelsStmt = db.prepare('SELECT article_id FROM labels WHERE username = ?1').bind(username);
         const userLabelledResults = await userLabelsStmt.all();
         const userLabelledIds = new Set(userLabelledResults?.results?.map(row => row.article_id) ?? []);
-        console.log(`[${new Date().toISOString()}] User ${username} has already labelled ${userLabelledIds.size} articles.`);
+        console.log(`[${new Date().toISOString()}] User ${username} has already labelled ${userLabelledIds.size} articles. (Fetched ${userLabelledResults?.results?.length ?? 0} rows for user labels)`);
 
         // 2. Find a batch of candidate articles (those with < N labels overall)
         const CANDIDATE_BATCH_SIZE = 10; // Fetch a small batch
@@ -62,6 +62,7 @@ export async function GET(event) {
         `).bind(REQUIRED_LABELS_PER_ARTICLE, CANDIDATE_BATCH_SIZE);
         
         const { results: candidateArticles } = await candidateStmt.all();
+        console.log(`[${new Date().toISOString()}] Fetched ${candidateArticles?.length ?? 0} candidate articles for user ${username}.`);
 
         // 3. Filter candidates in code to find one not labelled by the user
         let article = null;
