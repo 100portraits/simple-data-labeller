@@ -232,7 +232,6 @@
                 // ---- ADDED: Start fetching data now that username is set ----
                 console.log('Username confirmed, fetching initial data...');
                 isLoading = true; // Show loading indicators again
-                isLoadingProgress = true;
                 fetchNextArticle();
                 // Start polling if not already started (shouldn't be, but safe check)
                 // if (!intervalId) {
