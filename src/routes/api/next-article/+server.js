@@ -27,7 +27,7 @@ export async function GET(event) {
     console.log(`[${new Date().toISOString()}] GET /api/next-article requested by user: ${username} from ${clientAddress}`);
     
     try {
-        // --- Check user label count first --- 
+        // --- Check user label count first (use username) --- 
         const countStmt = db.prepare('SELECT COUNT(id) as count FROM labels WHERE username = ?1').bind(username);
         const userLabelCountResult = await countStmt.first();
         const currentUserCount = userLabelCountResult?.count ?? 0; // Get the count
@@ -52,7 +52,7 @@ export async function GET(event) {
                 GROUP BY article_id
             ) lc ON a.id = lc.article_id
             WHERE (lc.label_count IS NULL OR lc.label_count < ?1) -- Condition 1: Less than N labels
-              AND a.id NOT IN (SELECT article_id FROM labels WHERE username = ?2) -- Condition 2: Not labelled by this user
+              AND a.id NOT IN (SELECT article_id FROM labels WHERE username = ?2) -- Condition 2: Not labelled by this user (using username)
             ORDER BY RANDOM()
             LIMIT 1
         `).bind(REQUIRED_LABELS_PER_ARTICLE, username);

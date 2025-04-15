@@ -37,7 +37,7 @@ export async function POST(event) {
     console.log(`[${new Date().toISOString()}] Received label submission for article ${articleId} by ${username} with rating ${rating} from ${clientAddress}`);
 
     try {
-        // --- New: Check if user has reached their limit --- 
+        // --- Check user limit (use username) --- 
         const countStmt = db.prepare('SELECT COUNT(id) as count FROM labels WHERE username = ?1').bind(username);
         const userLabelCount = await countStmt.first();
         if (userLabelCount && userLabelCount.count >= MAX_LABELS_PER_USER) {
@@ -59,7 +59,7 @@ export async function POST(event) {
             }
         }
 
-        // Check if this user has already labelled this specific article
+        // Check if this user has already labelled this specific article (use username)
         const checkStmt = db.prepare(`
             SELECT id FROM labels WHERE article_id = ?1 AND username = ?2
         `).bind(articleId, username);
@@ -72,7 +72,7 @@ export async function POST(event) {
             return json({ message: 'Already labelled' }, { status: 200 }); 
         }
 
-        // Insert the new label
+        // Insert the new label (Removed userSessionId)
         const insertStmt = db.prepare(`
             INSERT INTO labels (article_id, username, rating, rating_text, roaddanger_volunteer) 
             VALUES (?1, ?2, ?3, ?4, ?5)

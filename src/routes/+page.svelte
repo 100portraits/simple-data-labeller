@@ -46,15 +46,15 @@
         userLimitReached = false; // Reset limit flag on fetch attempt
         currentRating = null; // Reset the rating for the new article
 
-        if (!username) {
+        if (!username) { // << Reverted check
             console.warn('Cannot fetch next article: Username not set.');
-            error = 'Username not set. Please refresh.'; // Should not happen if modal works
+            error = 'User identity not set. Please refresh.'; 
             isLoading = false;
             return;
         }
 
         try {
-            // Pass username as a query parameter
+            // Pass username as query parameter (Reverted)
             const response = await fetch(`/api/next-article?username=${encodeURIComponent(username)}`);
             console.log('Fetch response status:', response.status);
             if (!response.ok) {
@@ -89,10 +89,9 @@
 
     // Function to submit the labels
     async function submitLabels() {
-        if (!username) {
+        if (!username) { // << Reverted check
             console.error('Submission blocked: Username not set.');
-            // This case should ideally not happen if modal logic is correct
-            alert('Error: Username not set. Please refresh.');
+            alert('Error: User identity not set. Please refresh.');
             return;
         }
 
@@ -185,7 +184,7 @@
     // --- New Functions ---
 
     // Function to confirm username from modal
-    function confirmUsername() {
+    async function confirmUsername() {
         modalError = null;
         const trimmedUser = modalUsernameInput.trim();
         if (!trimmedUser) {
@@ -193,10 +192,39 @@
             console.warn('Username confirmation failed: empty input.');
             return;
         }
+
+        // --- NEW: Check if username exists --- 
+        let checkingUsername = true; // Optional: Add loading state to button
+        try {
+            const response = await fetch(`/api/check-username?username=${encodeURIComponent(trimmedUser)}`);
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error || `Failed to check username (status ${response.status})`);
+            }
+            const data = await response.json();
+            if (data.exists) {
+                modalError = 'This username is already taken. Please choose another.';
+                console.warn(`Username confirmation failed: '${trimmedUser}' already exists.`);
+                checkingUsername = false;
+                return;
+            }
+        } catch (e) {
+            console.error('Error checking username:', e);
+            modalError = `Error checking username: ${e.message}. Please try again.`;
+            checkingUsername = false;
+            return;
+        }
+        checkingUsername = false;
+        // -------------------------------------
+
         username = trimmedUser; // Set the main username state
+        // userSessionId = crypto.randomUUID(); // << REMOVED
+        console.log(`Generated new user session ID: ${username}`);
+
         if (browser) {
             try {
                 localStorage.setItem('labellerUsername', username); // Save to local storage
+                // localStorage.setItem('labellerSessionId', userSessionId); // << REMOVED
                 console.log('Username saved:', username);
                 needsUsernameSetup = false; // Hide the modal
 
@@ -280,14 +308,20 @@
             }
             // ------------------------------------------
 
-            // Load username from local storage
+            // Load username from local storage (Reverted)
             const storedUsername = localStorage.getItem('labellerUsername');
-            if (storedUsername) {
+            // const storedSessionId = localStorage.getItem('labellerSessionId'); // << REMOVED
+
+            if (storedUsername) { // << Reverted check
                 username = storedUsername;
+                // userSessionId = storedSessionId; // << REMOVED
                 console.log('Username loaded from storage:', username);
                 needsUsernameSetup = false;
             } else {
                 console.log('No username found in storage. Prompting user.');
+                // Clear potentially orphaned items if one is missing
+                localStorage.removeItem('labellerUsername');
+                // localStorage.removeItem('labellerSessionId'); // << REMOVED
                 needsUsernameSetup = true; // Show modal if no username is stored
             }
         } else {
@@ -340,7 +374,13 @@
                 {#if modalError}
                     <p id="modal-error" class="modal-error">{modalError}</p>
                 {/if}
-                <button on:click={confirmUsername} class="modal-confirm-button">Start Labelling</button>
+                <button 
+                    disabled={checkingUsername} 
+                    on:click={confirmUsername} 
+                    class="modal-confirm-button"
+                >
+                    {checkingUsername ? 'Checking...' : 'Start Labelling'}
+                </button>
             </div>
         </div>
     {/if}
