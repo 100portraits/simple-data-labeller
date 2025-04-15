@@ -17,6 +17,7 @@
     let needsUsernameSetup = false; // Control modal visibility
     let modalUsernameInput = ''; // Separate state for modal input
     let modalError = null; // Error message within the modal
+    let checkingUsername = false; // << DECLARED HERE
 
     // --- Progress Tracking --- (REMOVED overall progress)
     // let progress = { total: 0, labelled: 0, unassigned: 0 };
@@ -194,7 +195,7 @@
         }
 
         // --- NEW: Check if username exists --- 
-        let checkingUsername = true; // Optional: Add loading state to button
+        checkingUsername = true; // Optional: Add loading state to button
         try {
             const response = await fetch(`/api/check-username?username=${encodeURIComponent(trimmedUser)}`);
             if (!response.ok) {
