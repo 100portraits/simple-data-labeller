@@ -39,11 +39,16 @@ export async function GET(event) {
         }
         // ----------------------------------
 
-        // Find an article that:
-        // 1. Has less than REQUIRED_LABELS_PER_ARTICLE labels.
-        // 2. Has *not* already been labelled by the *current* user.
-        // D1 SQL: Use a subquery to get IDs already labelled by the user.
-        const findStmt = db.prepare(`
+        // --- Revised Query Logic --- 
+        // 1. Get IDs already labelled by this user (should be fast)
+        const userLabelsStmt = db.prepare('SELECT article_id FROM labels WHERE username = ?1').bind(username);
+        const userLabelledResults = await userLabelsStmt.all();
+        const userLabelledIds = new Set(userLabelledResults?.results?.map(row => row.article_id) ?? []);
+        console.log(`[${new Date().toISOString()}] User ${username} has already labelled ${userLabelledIds.size} articles.`);
+
+        // 2. Find a batch of candidate articles (those with < N labels overall)
+        const CANDIDATE_BATCH_SIZE = 10; // Fetch a small batch
+        const candidateStmt = db.prepare(`
             SELECT a.id, a.title, a.alltext
             FROM articles a
             LEFT JOIN (
@@ -52,12 +57,23 @@ export async function GET(event) {
                 GROUP BY article_id
             ) lc ON a.id = lc.article_id
             WHERE (lc.label_count IS NULL OR lc.label_count < ?1) -- Condition 1: Less than N labels
-              AND a.id NOT IN (SELECT article_id FROM labels WHERE username = ?2) -- Condition 2: Not labelled by this user (using username)
             ORDER BY RANDOM()
-            LIMIT 1
-        `).bind(REQUIRED_LABELS_PER_ARTICLE, username);
+            LIMIT ?2
+        `).bind(REQUIRED_LABELS_PER_ARTICLE, CANDIDATE_BATCH_SIZE);
+        
+        const { results: candidateArticles } = await candidateStmt.all();
 
-        const article = await findStmt.first();
+        // 3. Filter candidates in code to find one not labelled by the user
+        let article = null;
+        if (candidateArticles) {
+            for (const candidate of candidateArticles) {
+                if (!userLabelledIds.has(candidate.id)) {
+                    article = candidate; // Found a suitable article
+                    break;
+                }
+            }
+        }
+        // --- End Revised Query Logic ---
 
         if (article) {
             // No longer need versioning here as we are inserting into a separate table
