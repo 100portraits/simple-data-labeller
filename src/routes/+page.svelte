@@ -352,7 +352,7 @@
 </script>
 
 <svelte:head>
-    <title>Article Labeller</title>
+    <title>Human-Centered Crash Reporting - Article Labeller</title>
 </svelte:head>
 
 <main>
