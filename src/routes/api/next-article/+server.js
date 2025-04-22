@@ -38,7 +38,7 @@ export async function GET(event) {
         }
         // ----------------------------------
 
-        // --- V3 Query Logic: Minimize DB work, filter/select in code --- 
+        // --- V4 Query Logic: Random Batch IDs + Targeted Count Checks --- 
         
         // 1. Get IDs already labelled by this user
         const userLabelsStmt = db.prepare('SELECT article_id FROM labels WHERE username = ?1').bind(username);
@@ -46,46 +46,52 @@ export async function GET(event) {
         const userLabelledIds = new Set(userLabelledResults?.results?.map(row => row.article_id) ?? []);
         console.log(`[${new Date().toISOString()}] User ${username} has labelled ${userLabelledIds.size} articles.`);
 
-        // 2. Get counts for all articles that have at least one label
-        const labelCountsStmt = db.prepare('SELECT article_id, COUNT(id) as count FROM labels GROUP BY article_id');
-        const labelCountsResult = await labelCountsStmt.all();
-        const labelCounts = new Map(labelCountsResult?.results?.map(row => [row.article_id, row.count]) ?? []);
-        console.log(`[${new Date().toISOString()}] Fetched label counts for ${labelCounts.size} articles.`);
+        // 2. Get a batch of random article IDs from the articles table
+        const RANDOM_BATCH_SIZE = 20; // Fetch a slightly larger batch of IDs
+        const randomIdsStmt = db.prepare(`SELECT id FROM articles ORDER BY RANDOM() LIMIT ?1`).bind(RANDOM_BATCH_SIZE);
+        const randomIdsResult = await randomIdsStmt.all();
+        const randomArticleIds = randomIdsResult?.results?.map(row => row.id) ?? [];
+        console.log(`[${new Date().toISOString()}] Fetched ${randomArticleIds.length} random article IDs to check.`);
 
-        // 3. Get all article IDs (assuming 150 is small enough to fetch all)
-        const allArticleIdsStmt = db.prepare('SELECT id FROM articles');
-        const allArticleIdsResult = await allArticleIdsStmt.all();
-        const allArticleIds = allArticleIdsResult?.results?.map(row => row.id) ?? [];
-        console.log(`[${new Date().toISOString()}] Fetched ${allArticleIds.length} total article IDs.`);
-
-        // 4. Filter in code: Find IDs eligible for this user
-        const eligibleArticleIds = allArticleIds.filter(id => {
-            const count = labelCounts.get(id) ?? 0;
-            return count < REQUIRED_LABELS_PER_ARTICLE && !userLabelledIds.has(id);
-        });
-        console.log(`[${new Date().toISOString()}] Found ${eligibleArticleIds.length} eligible articles for user ${username}.`);
-
+        // 3. Iterate and check candidates
         let article = null;
-        if (eligibleArticleIds.length > 0) {
-            // 5. Select one eligible ID randomly in code
-            const randomIndex = Math.floor(Math.random() * eligibleArticleIds.length);
-            const selectedArticleId = eligibleArticleIds[randomIndex];
-            console.log(`[${new Date().toISOString()}] Randomly selected eligible article ID: ${selectedArticleId}`);
+        let selectedArticleId = null;
 
-            // 6. Fetch the data for the *single selected* article
+        for (const candidateId of randomArticleIds) {
+            // 3a. Check if user already labelled this (in code)
+            if (userLabelledIds.has(candidateId)) {
+                console.log(`[${new Date().toISOString()}] Skipping article ${candidateId} (already labelled by user ${username}).`);
+                continue; // Skip to next candidate
+            }
+
+            // 3b. Check current label count for this specific article (DB query)
+            const countCheckStmt = db.prepare('SELECT COUNT(id) as count FROM labels WHERE article_id = ?1').bind(candidateId);
+            const countResult = await countCheckStmt.first();
+            const currentCount = countResult?.count ?? 0;
+            console.log(`[${new Date().toISOString()}] Article ${candidateId} has ${currentCount} labels.`);
+
+            // 3c. Check if count is below threshold
+            if (currentCount < REQUIRED_LABELS_PER_ARTICLE) {
+                selectedArticleId = candidateId; // Found a suitable article ID
+                console.log(`[${new Date().toISOString()}] Selected article ${selectedArticleId} for user ${username}.`);
+                break; // Stop searching
+            }
+        }
+
+        // 4. Fetch article details if an ID was selected
+        if (selectedArticleId) {
             const articleStmt = db.prepare('SELECT id, title, alltext FROM articles WHERE id = ?1').bind(selectedArticleId);
             article = await articleStmt.first();
         }
-        // --- End V3 Query Logic ---
+        // --- End V4 Query Logic ---
 
         if (article) {
-            // No longer need versioning here as we are inserting into a separate table
+            // Provide the found article
             console.log(`[${new Date().toISOString()}] Providing article ID: ${article.id} to ${clientAddress}`);
-            // Include count in response
             return json({ article: article, limitReached: false, userLabelCount: currentUserCount }, { status: 200 });
         } else {
-            // No more articles available that meet the criteria for this user
-            console.log(`[${new Date().toISOString()}] No more articles to label for user ${username} from ${clientAddress}.`);
+            // No suitable article found in the random batch
+            console.log(`[${new Date().toISOString()}] No suitable article found in random batch for user ${username} from ${clientAddress}.`);
             // Include count in response
             return json({ article: null, limitReached: currentUserCount >= MAX_LABELS_PER_USER, userLabelCount: currentUserCount }, { status: 200 });
         }
