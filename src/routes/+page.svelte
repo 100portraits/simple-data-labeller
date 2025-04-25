@@ -10,6 +10,7 @@
     let allDone = false;
     let submitting = false;
     let userLimitReached = false; // New state for user limit
+    let noArticlesAvailableTemporarily = false; // New state
     let isRoadDangerVolunteer = false; // Flag for special volunteers
 
     // --- User Identification ---
@@ -45,6 +46,7 @@
         currentArticle = null;
         allDone = false;
         userLimitReached = false; // Reset limit flag on fetch attempt
+        noArticlesAvailableTemporarily = false; // Reset temp flag
         currentRating = null; // Reset the rating for the new article
 
         if (!username) { // << Reverted check
@@ -78,6 +80,18 @@
                 console.log('All articles are labelled or no more available for this user.');
                 userLabelCount = data.userLabelCount ?? userLabelCount; // Update count even if no article
                 allDone = true; // No more articles
+
+                // --- Check for project completion --- 
+                if (data.projectComplete) {
+                    console.log('Global project completion detected.');
+                    allDone = true;
+                    noArticlesAvailableTemporarily = false; // Ensure temp message is off
+                } else {
+                    console.log('No article for user, but project not complete yet.');
+                    allDone = false; // Don't show final message yet
+                    noArticlesAvailableTemporarily = true; // Show temporary message
+                }
+                // -------------------------------------
             }
         } catch (e) {
             console.error('Failed to fetch article:', e);
@@ -412,7 +426,14 @@
                 You've labelled {MAX_LABELS_PER_USER} articles. We're asking only {MAX_LABELS_PER_USER} from each person so that we get a diversity of responses. Thank you!
             </p>
         {:else if allDone}
-            <p style="color: green; font-weight: bold; text-align: center; margin: 2rem 0;">All articles have been labelled! Thank you!</p>
+            <p style="color: green; font-weight: bold; text-align: center; margin: 2rem 0;">
+                We reached our goal of 1000 labels. Thank you for your help! 
+                <!-- Adjusted target to 1000 based on user request, though logic uses 150*5=750 -->
+            </p>
+        {:else if noArticlesAvailableTemporarily}
+            <p style="color: orange; font-weight: bold; text-align: center; margin: 2rem 0;">
+                No suitable articles available for you at the moment. Please check back later!
+            </p>
         {:else if currentArticle}
             <article>
                 <h2>({currentArticle.id}) {currentArticle.title}</h2>

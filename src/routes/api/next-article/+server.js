@@ -90,10 +90,48 @@ export async function GET(event) {
             console.log(`[${new Date().toISOString()}] Providing article ID: ${article.id} to ${clientAddress}`);
             return json({ article: article, limitReached: false, userLabelCount: currentUserCount }, { status: 200 });
         } else {
-            // No suitable article found in the random batch
-            console.log(`[${new Date().toISOString()}] No suitable article found in random batch for user ${username} from ${clientAddress}.`);
-            // Include count in response
-            return json({ article: null, limitReached: currentUserCount >= MAX_LABELS_PER_USER, userLabelCount: currentUserCount }, { status: 200 });
+            // No suitable article found in the random batch for this user.
+            // Check if the *entire project* might be complete.
+            console.log(`[${new Date().toISOString()}] No suitable article found in random batch for user ${username}. Checking global status...`);
+
+            let projectComplete = false;
+            try {
+                // Count total articles (should be 150 or actual count)
+                const totalArticlesStmt = db.prepare(`SELECT COUNT(*) as count FROM articles`);
+                const totalResult = await totalArticlesStmt.first();
+                const totalArticles = totalResult?.count ?? 0;
+
+                if (totalArticles > 0) {
+                    // Count articles that have received the required number of labels
+                    const completedArticlesStmt = db.prepare(`
+                        SELECT COUNT(article_id) as count
+                        FROM (
+                            SELECT article_id
+                            FROM labels
+                            GROUP BY article_id
+                            HAVING COUNT(id) >= ?1
+                        )
+                    `).bind(REQUIRED_LABELS_PER_ARTICLE);
+                    const completedResult = await completedArticlesStmt.first();
+                    const completedArticles = completedResult?.count ?? 0;
+                    
+                    console.log(`[${new Date().toISOString()}] Global status check: ${completedArticles} / ${totalArticles} articles complete.`);
+                    if (completedArticles >= totalArticles) {
+                        projectComplete = true;
+                    }
+                }
+            } catch (statusError) {
+                console.error(`[${new Date().toISOString()}] Error checking global completion status for user ${username}:`, statusError);
+                // Proceed without setting projectComplete flag if status check fails
+            }
+
+            // Include count and completion status in response
+            return json({ 
+                article: null, 
+                limitReached: currentUserCount >= MAX_LABELS_PER_USER, 
+                userLabelCount: currentUserCount, 
+                projectComplete: projectComplete // Add the global completion flag
+            }, { status: 200 });
         }
     } catch (error) {
         console.error(`[${new Date().toISOString()}] Error fetching next article for ${clientAddress}:`, error);
