@@ -360,8 +360,8 @@
         <!-- Username Setup Modal -->
         <div class="modal-overlay">
             <div class="modal-content">
-                <h2>Welcome! Please enter your name:</h2>
-                <p>This name will be used to track your contributions.</p>
+                <h2>Welcome! Please enter your name/nickname:</h2>
+                <p>This name will be used to track your contributions. <br/>It's also fine to use a nickname or alias if you prefer.</p>
                 <input 
                     type="text" 
                     bind:value={modalUsernameInput} 
