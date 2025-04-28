@@ -46,49 +46,58 @@ export async function GET(event) {
         const userLabelledIds = new Set(userLabelledResults?.results?.map(row => row.article_id) ?? []);
         console.log(`[${new Date().toISOString()}] User ${username} has labelled ${userLabelledIds.size} articles.`);
 
-        // 2. Get a batch of random article IDs from the articles table
-        const RANDOM_BATCH_SIZE = 20; // Fetch a slightly larger batch of IDs
-        const randomIdsStmt = db.prepare(`SELECT id FROM articles ORDER BY RANDOM() LIMIT ?1`).bind(RANDOM_BATCH_SIZE);
-        const randomIdsResult = await randomIdsStmt.all();
-        const randomArticleIds = randomIdsResult?.results?.map(row => row.id) ?? [];
-        console.log(`[${new Date().toISOString()}] Fetched ${randomArticleIds.length} random article IDs to check.`);
-
-        // 3. Iterate and check candidates
+        // --- NEW Query Logic: Prioritize articles closest to completion ---
+        
         let article = null;
-        let selectedArticleId = null;
-
-        for (const candidateId of randomArticleIds) {
-            // 3a. Check if user already labelled this (in code)
-            if (userLabelledIds.has(candidateId)) {
-                console.log(`[${new Date().toISOString()}] Skipping article ${candidateId} (already labelled by user ${username}).`);
-                continue; // Skip to next candidate
-            }
-
-            // 3b. Check current label count for this specific article (DB query)
-            const countCheckStmt = db.prepare('SELECT COUNT(id) as count FROM labels WHERE article_id = ?1').bind(candidateId);
-            const countResult = await countCheckStmt.first();
-            const currentCount = countResult?.count ?? 0;
-            console.log(`[${new Date().toISOString()}] Article ${candidateId} has ${currentCount} labels.`);
-
-            // 3c. Check if count is below threshold
-            if (currentCount < REQUIRED_LABELS_PER_ARTICLE) {
-                selectedArticleId = candidateId; // Found a suitable article ID
-                console.log(`[${new Date().toISOString()}] Selected article ${selectedArticleId} for user ${username}.`);
-                break; // Stop searching
-            }
+        
+        // Construct the query to find the best candidate article
+        // 1. Count labels for each article.
+        // 2. Filter out articles already done (>= REQUIRED_LABELS_PER_ARTICLE).
+        // 3. Filter out articles this user has labelled (using WHERE NOT IN).
+        // 4. Order by label count DESC (highest count first), then by ID ASC.
+        // 5. Limit to 1.
+        let prioritizedArticleStmt;
+        if (userLabelledIds.size > 0) {
+            // Need to handle 'IN' clause parameter binding correctly for multiple IDs
+            const placeholders = Array.from(userLabelledIds).map(() => '?').join(',');
+            prioritizedArticleStmt = db.prepare(`
+                SELECT a.id, a.title, a.alltext, COUNT(l.id) as label_count
+                FROM articles a
+                LEFT JOIN labels l ON a.id = l.article_id
+                GROUP BY a.id, a.title, a.alltext
+                HAVING label_count < ?1 
+                   AND a.id NOT IN (${placeholders}) 
+                ORDER BY label_count DESC, a.id ASC 
+                LIMIT 1
+            `).bind(REQUIRED_LABELS_PER_ARTICLE, ...userLabelledIds); // Spread the Set into bind parameters
+        } else {
+             // Simpler query if the user hasn't labelled anything yet
+             prioritizedArticleStmt = db.prepare(`
+                SELECT a.id, a.title, a.alltext, COUNT(l.id) as label_count
+                FROM articles a
+                LEFT JOIN labels l ON a.id = l.article_id
+                GROUP BY a.id, a.title, a.alltext
+                HAVING label_count < ?1
+                ORDER BY label_count DESC, a.id ASC
+                LIMIT 1
+            `).bind(REQUIRED_LABELS_PER_ARTICLE);
         }
 
-        // 4. Fetch article details if an ID was selected
-        if (selectedArticleId) {
-            const articleStmt = db.prepare('SELECT id, title, alltext FROM articles WHERE id = ?1').bind(selectedArticleId);
-            article = await articleStmt.first();
+        article = await prioritizedArticleStmt.first(); // Returns the full article object or null
+
+        if (article) {
+            console.log(`[${new Date().toISOString()}] Selected prioritized article ${article.id} (count: ${article.label_count}) for user ${username}.`);
+        } else {
+             console.log(`[${new Date().toISOString()}] No suitable article found via prioritized query for user ${username}.`);
         }
-        // --- End V4 Query Logic ---
+        // --- End NEW Query Logic ---
 
         if (article) {
             // Provide the found article
-            console.log(`[${new Date().toISOString()}] Providing article ID: ${article.id} to ${clientAddress}`);
-            return json({ article: article, limitReached: false, userLabelCount: currentUserCount }, { status: 200 });
+            // Need to remove the label_count property before sending to frontend if it's not expected
+            const { label_count, ...articleToSend } = article; 
+            console.log(`[${new Date().toISOString()}] Providing article ID: ${articleToSend.id} to user ${username} from ${clientAddress}`);
+            return json({ article: articleToSend, limitReached: false, userLabelCount: currentUserCount }, { status: 200 });
         } else {
             // No suitable article found in the random batch for this user.
             // Check if the *entire project* might be complete.
